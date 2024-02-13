@@ -1,0 +1,230 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathcal{F}}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+{
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  linkcolor=blue
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Дефиниция}[section]
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{invariant}{Инварианта}
+\newtheorem{claim}[definition]{Твърдение}
+\newtheorem{axiom}[definition]{Аксиома}
+\newtheorem{lemma}[definition]{Лема}
+\newtheorem{corollary}[definition]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\setlength\parindent{0pt}
+
+\title{Рекурентни уравнения}
+\author{Тодор Дуков}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Защо са ни рекурентни уравнения?}
+
+Те се появяват по естествен път, когато искаме да анализираме сложността на рекурсивни алгоритми.
+
+Нека вземем за пример алгоритъма за двоично търсене:
+\inputminted[linenos]{c++}{algorithms/binary_search.cpp}
+
+При подаден масив $\mathtt{arr}$ с размер $\mathtt{n}$ и стойност $\mathtt{val}$, функцията $\mathtt{binary\_search(arr, 0, n - 1, val)}$ ще върне индекс на $\mathtt{arr}$, в който се намира $\mathtt{val}$, ако има такъв, иначе ще върне $\mathtt{-1}$.
+Нека помислим каква е сложността на алгоритъма.
+Управляващите параметри на рекурсията са $\mathtt{left}$ и $\mathtt{right}$.
+Всеки път разликата между двете намалява двойно (като накрая когато $\mathtt{left = right}$ тя ще стане отрицателна).
+Това означава, че в най-лошият случай сложността на алгоритъма може да се опише със следното рекурентно уравнение:
+\begin{align*}
+     & T(0) = 1                                          \\
+     & T(n + 1) = T(\lfloor \frac{n + 1}{2} \rfloor) + 1
+\end{align*}
+Добавянето на $1$ е заради константните проверки, които се извършват преди рекурсивното извикване.
+Технически не трябва да е $1$, защото проверките са няколко, но това няма да повлияе на асимптотичното поведение на $T(n)$.
+В този случай лесно се вижда асимптотиката на $T(n)$:
+\[
+    T(n) = T(\lfloor \frac{n}{2} \rfloor) + 1 = T(\lfloor \frac{n}{4} \rfloor) + 1 + 1 = T(\lfloor \frac{n}{8} \rfloor) + 1 + 1 + 1 = \dots = T(0) + \underbrace{1 + \dots + 1}_{\text{около } \log(n) \text{ пъти}} \asymp \log(n)
+\]
+
+Така получаваме, че алгоритъмът има сложност $O(\log(n))$.
+Обаче в общият случай далеч не е толкова лесно да се намери асимптотичното поведение на дадено рекурентно уравнение.
+Целта ни ще бъде да развием по-богат апарат за асимптотичен анализ на рекурентните уравнения.
+
+\section*{Начини за намиране на асимптотиката на рекурентни уравнения}
+
+Начините се разделят на два типа:
+\begin{enumerate}
+    \item със решаване на уравнението
+    \item без решаване на уравнението
+\end{enumerate}
+
+И двата начина са ценни.
+Първият начин ни дава формула във явен вид, което може да ни е от полза.
+Понякога обаче формулата във явен вид не е \textit{``красива''}, или изобщо не може да се намери такава.
+Тогава идва на помощ вторият начин.
+Той директно ни дава някаква \textit{``хубава''} формула, без да трябва да намираме в явен вид решение на рекурентното уравнение.
+Проблема е обаче, че асимптотиката понякога е малко лъжлива -- алгоритъм със сложност $2^{2^{2^{1000}}}$ е асимптотично по-бавен от алгоритъм със сложност $n$, но практически вторият е по-бърз.
+
+\pagebreak
+
+Ще разгледаме следните методи (повечето от които са разглеждани по дискретна математика):
+\begin{itemize}
+    \item налучкване и доказване
+    \item развиване (което преди малко показахме)
+    \item методът с характеристичното уравнение
+    \item Master теоремата
+\end{itemize}
+
+Нека разгледаме един пример с налучкване:
+\begin{align*}
+     & T(0) = 3                   \\
+     & T(n + 1) = (n + 1)T(n) - n
+\end{align*}
+
+Започваме да разписваме:
+\begin{center}
+    \begin{tabular}{| c | c | c |}
+        \hline
+        $n$ & $T(n)$ & $n!$  \\
+        \hline
+        $0$ & $3$    & $1$   \\
+        \hline
+        $1$ & $3$    & $1$   \\
+        \hline
+        $2$ & $5$    & $2$   \\
+        \hline
+        $3$ & $13$   & $6$   \\
+        \hline
+        $4$ & $49$   & $24$  \\
+        \hline
+        $5$ & $241$  & $120$ \\
+        \hline
+        $6$ & $1441$ & $720$ \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Вече лесно можем да покажем с индукция, че $T(n) = 2(n!) + 1$:
+\begin{itemize}
+    \item $T(0) = 3 = 2 \cdot 1 + 1 = 2 \cdot 0! + 1$
+    \item $T(n + 1) = (n + 1)T(n) - n \stackrel{\text{(ИП)}}{=} (n + 1)(2(n!) + 1) - n = (n + 1)(2(n!)) + n + 1 - n = 2(n + 1)! + 1$
+\end{itemize}
+Накрая получаваме, че $T(n) \asymp n!$
+
+Нека сега да видим как можем да използваме метода на характеристичното уравнение:
+\[
+    T(n) = 1 + \sum\limits_{i = 0}^{n - 1}T(i)    \text{ // функцията е добре дефинирана и за } 0
+\]
+Рекурентното уравнение, зададено в този вид, не може да се реши с този метод.
+За това ще трябва да направим преобразувания:
+\begin{align*}
+     & T(0) = 0                                                                                                                                                                                                                        \\
+     & T(n + 1) = 1 + \sum\limits_{i = 0}^{n}T(i) = 1 + T(n) + \underbrace{\sum\limits_{i = 0}^{n - 1}T(i)}_{T(n)} = 2T(n) + 1 = \underbrace{2T(n)}_{\text{хомогенна част}} + \underbrace{1 \cdot 1^{n + 1}}_{\text{нехомогенна част}}
+\end{align*}
+
+От хомогенната получаваме характеристичното уравнение $x - 2 = 0$ с единствен корен $2$, а от нехомогенната част получаваме единствен корен $1$.
+Така:
+\[
+    T(n) = A \cdot 2^n + B \cdot 1^n \text{ за някои константи } A, B
+\]
+Вече няма нужда и да се намират константите -- ясно е че $T(n) \asymp 2^n$.
+Kато използваме метода на характеристичното уравнение, не е нужно да намираме накрая константите за да разберем каква е асимптотиката.
+Достатъчно е да вземем събираемото, която расте най-много (в случая $2^n$).
+
+Нека сега разгледаме и последният начин:
+\begin{theorem}[Master теоремата]\thlabel{master-thm}
+    Нека $a \geq 1, \: b > 1$ и $f \in \F$.
+    Нека $T(n) = aT(\frac{n}{b}) + f(n)$ (мислете си, че $T(0) = 1$), където $\frac{n}{b}$ се интерпретира като $\lfloor \frac{n}{b} \rfloor$ или $\lceil \frac{n}{b} \rceil$.
+    Тогава:
+    \begin{itemize}
+        \item[1 сл.] Ако $f(n) \preceq n^{\log_b(a) - \varepsilon}$ за някое $\varepsilon > 0$, то тогава $T(n) \asymp n^{log_b(a)}$
+        \item[2 сл.] Ако $f(n) \asymp n^{log_b(a)}$, то тогава $T(n) \asymp n^{log_b(a)} \log(n)$
+        \item[3 сл.] Ако са изпълнени следните условия:
+            \begin{enumerate}
+                \item $f(n) \succeq n^{\log_b(a) + \varepsilon}$ за някое $\varepsilon > 0$
+                \item съществува $0 < c < 1$, за което от някъде нататък $a \cdot f(\frac{n}{b}) \leq c \cdot f(n)$,
+            \end{enumerate}
+            то тогава $T(n) \asymp f(n)$
+    \end{itemize}
+\end{theorem}
+
+\pagebreak
+
+Нека разгледаме рекурентното уравнение:
+\[
+    T(n) = 2T(\frac{n}{2}) + 1
+\]
+Тук $a = b = 2$, и $f(n) = 1$.
+Също така $\log_b(a) = 1$, откъдето $f(n) = 1 \preceq n^{\log_b(a) - \varepsilon}$, за $\varepsilon \in (0, 1)$.
+Така по 2 сл. на \nameref{master-thm} получаваме, че $T(n) \asymp n$.
+
+\section*{Задачи}
+
+\begin{problem}
+Без да се използва \nameref{master-thm} да се намери асимптотиката на сложността по време на алгоритъма Merge sort т.е. на рекурентното уравнение:
+\[
+    T(n) = 2T(\frac{n}{2}) + n
+\]
+\end{problem}
+
+\begin{problem}
+Да се намери асимптотиката на следните рекурентни уравнения:
+\begin{align*}
+    T_1(n) & = 29T_1(\frac{n}{3}) + 2 \sum\limits_{i = 1}^n \frac{1}{i^2} & T_2(n) & = 29T_2(\frac{n}{3}) + 12n + \sqrt{n}              & T_3(n) & = T_3(n - 1) + \frac{n}{(n + 1)(n - 1)}            \\
+    T_4(n) & = 29T_4(\frac{n}{3}) + (\sum\limits_{i = 1}^n \frac{1}{i})^4 & T_5(n) & = 29T_5(\frac{n}{3}) + 2 \sum\limits_{i = 1}^n i^2 & T_6(n) & = 29T_6(\frac{n}{3}) + n^{\sqrt{n}} + (\sqrt{n})^n \\
+    T_7(n) & = T_7(\sqrt{n}) + n                                          & T_8(n) & = 29T_8(\frac{n}{3}) + \binom{2n}{2}               & T_9(n) & = 8T_9(n - 1) - T_9(n - 2) + 2n2^{2n} + 3n2^{3n}
+\end{align*}
+\end{problem}
+
+\begin{problem}
+Да се намери сложността по-време на следният алгоритъм:
+\inputminted[linenos]{c++}{algorithms/alg.cpp}
+\end{problem}
+
+\end{document}
