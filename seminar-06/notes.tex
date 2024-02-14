@@ -1,0 +1,246 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathcal{F}}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+{
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  linkcolor=blue
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Дефиниция}[section]
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{invariant}{Инварианта}
+\newtheorem{claim}[definition]{Твърдение}
+\newtheorem{axiom}[definition]{Аксиома}
+\newtheorem{lemma}[definition]{Лема}
+\newtheorem{corollary}[definition]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\setlength\parindent{0pt}
+
+\title{Коректност на рекурсивни алгоритми}
+\author{Тодор Дуков}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Няколко прости примера за рекурсивни алгоритми}
+
+Нека разгледаме следният алгоритъм:
+\inputminted[linenos]{c++}{algorithms/maximum.cpp}
+
+Очевидно при параметри масив $\mathtt{arr}$ с размер поне $\mathtt{n}$, функцията $\mathtt{maximum(arr, n)}$ връща $\mathtt{\max arr[0 \dots n - 1]}$.
+Ще докажем това с индукция по $\mathtt{n}$:
+\begin{itemize}
+    \item за $\mathtt{n = 0}$ имаме, че:
+          \[
+              \mathtt{maximum(arr, n) = -\infty = \max [] = \max arr[0 \dots 0 - 1] \text{, където под } [] \text{ се има предвид празният масив}}
+          \]
+    \item за $\mathtt{n + 1}$ имаме, че:
+          \[
+              \mathtt{maximum(arr, n + 1) = \max(arr[n], maximum(arr, n)) \stackrel{\text{(ИП)}}{=} \max(arr[n], \max arr[0 \dots n - 1]) = \max arr[0 \dots n]}
+          \]
+\end{itemize}
+
+Ясно е, че сложността на алгоритъма може да се опише със следното рекурентно уравнение:
+\[
+    T(n) = T(n - 1) + 1 \text{ // базата няма да я пишем}
+\]
+
+Директно се вижда, че $T(n) \asymp n$.
+
+Да видим един малко по-сложен пример -- за бързо степенуване:
+\inputminted[linenos]{c++}{algorithms/exp.cpp}
+
+С индукция относно $\mathtt{power}$, ще покажем, че $\mathtt{exp(base, power) = base^{power}}$ (с уговорката, че $\mathtt{0^0 = 1}$):
+\begin{itemize}
+    \item $\mathtt{exp(base, 0) = 1 = base^0}$
+    \item $\mathtt{exp(base, 2n + 1) = base \cdot exp(base, n) \cdot exp(base, n) \stackrel{\text{(ИП)}}{=} base \cdot base^n \cdot base^n = base^{2n + 1}}$
+    \item $\mathtt{exp(base, 2n + 2) = exp(base, n + 1) \cdot exp(base, n + 1) \stackrel{\text{(ИП)}}{=} base^{n + 1} \cdot base^{n + 1} = base^{2n + 2}}$
+\end{itemize}
+
+Сложността на този алгоритъм може да се опише със следното рекурентно уравнение:
+\[
+    T(n) = T(\frac{n}{2}) + 1
+\]
+Със Master теоремата лесно се вижда, че:
+\[
+    T(n) \asymp \log(n)
+\]
+
+\pagebreak
+
+\section*{Трик за бързо пресмятане на членове на някои рекурентни редици}
+
+Нека вземем за пример редицата на Фибоначи:
+\begin{align*}
+     & F(0) = 0                   \\
+     & F(1) = 1                   \\
+     & F(n + 2) = F(n + 1) + F(n)
+\end{align*}
+Човек може да забележи, че:
+\[
+    \begin{pmatrix}
+        1 & 1 \\
+        1 & 0
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        F(n + 1) \\
+        F(n)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        F(n + 2) \\
+        F(n + 1)
+    \end{pmatrix}
+\]
+След това с индукция лесно се показва, че:
+\[
+    \begin{pmatrix}
+        1 & 1 \\
+        1 & 0
+    \end{pmatrix}^n
+    \cdot
+    \begin{pmatrix}
+        F(1) \\
+        F(0)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        F(n + 1) \\
+        F(n)
+    \end{pmatrix}
+\]
+
+За да сметнем $F(n)$, можем да направим бързо степенуване на матрицата, аналогична на тази с числата:
+\inputminted[linenos]{c++}{algorithms/fibonacci.cpp}
+
+Коректността и сложността на алгоритъма оставяме на читателя (напълно аналогично е на предният алгоритъм).
+
+\pagebreak
+
+В общият случай ще имаме рекурентно уравнение от вида:
+\[
+    T(n + k + 1) = a_k T(n + k) + \dots + a_1 T(n + 1) + a_0 T(n) \text{, където } a_0, \dots, a_k, k \text{ са константи}
+\]
+Тогава имаме следната зависимост:
+\[
+    \begin{pmatrix}
+        a_k    & a_{k - 1} & a_{k - 2} & \dots  & a_0    \\
+        1      & 0         & 0         & \dots  & 0      \\
+        0      & 1         & 0         & \dots  & 0      \\
+        \vdots & \vdots    & \vdots    & \ddots & \vdots \\
+        0      & \dots     & 0         & 1      & 0      \\
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        T(n + k)     \\
+        T(n + k - 1) \\
+        T(n + k - 2) \\
+        \vdots       \\
+        T(n)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        T(n + k + 1) \\
+        T(n + k)     \\
+        T(n + k - 1) \\
+        \vdots       \\
+        T(n + 1)
+    \end{pmatrix}
+\]
+Отново с индукция лесно се показва, че:
+\[
+    \begin{pmatrix}
+        a_k    & a_{k - 1} & a_{k - 2} & \dots  & a_0    \\
+        1      & 0         & 0         & \dots  & 0      \\
+        0      & 1         & 0         & \dots  & 0      \\
+        \vdots & \vdots    & \vdots    & \ddots & \vdots \\
+        0      & \dots     & 0         & 1      & 0      \\
+    \end{pmatrix}^n
+    \cdot
+    \begin{pmatrix}
+        T(k)     \\
+        T(k - 1) \\
+        T(k - 2) \\
+        \vdots   \\
+        T(0)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        T(n + k)     \\
+        T(n + k - 1) \\
+        T(n + k - 2) \\
+        \vdots       \\
+        T(n)
+    \end{pmatrix}
+\]
+
+\section*{Задачи}
+
+\begin{problem}
+Да се напише алгоритъм $\mathtt{calculate(first\_members, step, k, n)}$, който приема два масива от цели числа $\mathtt{first\_members}$ и $\mathtt{step}$ с размер $\mathtt{k + 1}$, естествено число $\mathtt{n}$, и връща $\mathtt{n}$-тия член на следната рекурентна редица:
+\begin{align*}
+     & T(0) = \mathtt{first\_members[0]}                                                                                      \\
+     & T(1) = \mathtt{first\_members[1]}                                                                                      \\
+     & \phantom{0000000000} \vdots                                                                                            \\
+     & T(k) = \mathtt{first\_members[k]}                                                                                      \\
+     & T(n + k + 1) = \mathtt{step[k]} \cdot T(n + k) + \dots + \mathtt{step[1]} \cdot T(n + 1) + \mathtt{step[0]} \cdot T(n)
+\end{align*}
+След това да се докаже неговата коректност, и да се изследва сложността му по време.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\inputminted[linenos]{c++}{algorithms/stooge_sort.cpp}
+Да се докаже, че при подаден масив $\mathtt{arr}$ с размер $\mathtt{n}$, функцията $\mathtt{stooge\_sort(arr, 0, n - 1)}$ ще сортира $\mathtt{arr}$.
+След това да се направи анализ на сложността по време.
+\end{problem}
+
+\end{document}
