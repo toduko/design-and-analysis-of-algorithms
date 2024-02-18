@@ -100,7 +100,7 @@
 Да видим един малко по-сложен пример -- за бързо степенуване:
 \inputminted[linenos]{c++}{algorithms/exp.cpp}
 
-С пълна (от тук нататък няма да го пишем) индукция относно $\mathtt{power}$ ще покажем, че $\mathtt{exp(base, power) = base^{power}}$:
+С пълна (защото $\mathtt{power}$ намалява двойно) индукция относно $\mathtt{power}$ ще покажем, че $\mathtt{exp(base, power) = base^{power}}$:
 \begin{itemize}
     \item $\mathtt{exp(base, 0) = 1 = base^0}$ // тук се уговаряме, че $\mathtt{0^0 = 1}$
     \item $\mathtt{exp(base, 2n + 1) = base \cdot exp(base, n) \cdot exp(base, n) \stackrel{\text{(ИП)}}{=} base \cdot base^n \cdot base^n = base^{2n + 1}}$
