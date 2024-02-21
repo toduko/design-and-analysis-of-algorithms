@@ -114,22 +114,23 @@
 Интересуваме се не толкова от конкретните стойности, а от поведението им, когато размерът на входа клони към безкрайност.
 
 \section*{Няколко дефиниции}
-\footnotetext[1]{точност до константен множител}
-Множеството от функции, които ще анализираме, е $\F = \{ f \mid f : \N \rightarrow \R^{\geq 0} \}$.
+\footnotetext[1]{точност до константен множител и константно събираемо}
+Множеството от функции, които ще анализираме, е $\F = \{ f \mid f : \R^{\geq 0} \rightarrow \R \: \& \: (\exists n_0 > 0) (\forall n \geq n_0) (f(n) > 0) \}$.
+
 За всяка функция $f \in \F$ ще дефинираме следните пет множества:
 \begin{itemize}
-  \item $\Theta(f) = \{ g \in \F \: \mid (\exists c_1 > 0)(\exists c_2 > 0)(\exists n_0 \in \N)(\forall n \geq n_0)(c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n))\}$ \\
+  \item $\Theta(f) = \{ g \in \F \: \mid (\exists c_1 > 0)(\exists c_2 > 0)(\exists n_0 \in \N)(\forall n \geq n_0)(c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n))\}$ \\
         Може да тълкуваме $\Theta(f)$ като множеството от функциите, които растат\footnotemark[1] толкова бързо, колкото $f$.
-        Можем да вземем за пример $f(n) = n + 200$ и $g(n) = 3n + 1$:
+        Можем да вземем за пример $f(n) = 3n + 1$ и $g(n) = n + 200$:
 
         \begin{tikzpicture}
           \begin{axis}[axis lines = left, xlabel = \(n\), ylabel = {\(h(n)\)}]
             \addplot[domain = 0:1000, color=red]{x+200};
-            \addlegendentry{$f(n)$};
+            \addlegendentry{$g(n)$};
             \addplot[domain = 0:1000, color=blue]{(3*x)+1};
-            \addlegendentry{$g(n) (c_2 = 1)$};
+            \addlegendentry{$f(n) (c_2 = 1)$};
             \addplot[domain = 0:1000, color=green]{((3*x)+1)/4};
-            \addlegendentry{$\frac{1}{4} \cdot g(n) (c_1 = \frac{1}{4})$};
+            \addlegendentry{$\frac{f(n)}{4} (c_1 = \frac{1}{4})$};
           \end{axis}
         \end{tikzpicture}
 
