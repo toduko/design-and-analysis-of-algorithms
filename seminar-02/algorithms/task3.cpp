@@ -4,7 +4,7 @@ int f3(int n)
 
     for (int i = 0; i < n * n; ++i)
     {
-        for (int j = 0; j < i; ++j)
+        for (int j = 0; j < 2 * i; ++j)
         {
             if (j % 2 == 0) s += f1(n);
             else s += f2(n);

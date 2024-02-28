@@ -4,7 +4,7 @@ int f2(int n)
 
     for (int i = 0; i * i < n; i += 3)
     {
-        s += f1(i);
+        s += f1(n);
     }
 
     return s;
