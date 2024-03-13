@@ -1,17 +1,12 @@
 int kadane(int *arr, int n)
 {
-    int m = arr[0], curr_m = arr[0];
+    int max_so_far = -INF, max_ending_here = 0;
 
-    for (int i = 1; i < n; ++i)
+    for (int i = 0; i < n; i++)
     {
-        if (arr[i] + curr_m > arr[i])
-            curr_m += arr[i];
-        else
-            curr_m = arr[i];
-
-        if (m < curr_m)
-            m = curr_m;
+        max_so_far = max(arr[i], max_so_far + arr[i]);
+        max_ending_here = max(max_ending_here, max_so_far);
     }
 
-    return m;
+    return max_so_far;
 }
