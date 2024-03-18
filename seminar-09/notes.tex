@@ -1,0 +1,176 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{systeme}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathcal{F}}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+{
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  linkcolor=blue
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Дефиниция}[section]
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{invariant}{Инвариант}
+\newtheorem{claim}[definition]{Твърдение}
+\newtheorem{axiom}[definition]{Аксиома}
+\newtheorem{lemma}[definition]{Лема}
+\newtheorem{corollary}[definition]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\setlength\parindent{0pt}
+
+\title{Прости алгоритми върху графи}
+\author{Тодор Дуков}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Защо изобщо се занимаваме с графи?}
+
+Графите са може би най-приложимата структура в областта на компютърните науки.
+Тяхната моделираща мощ е несравнима с тази на останалите структури.
+Те могат се използват за моделиране на:
+\begin{itemize}
+  \item приятелски връзки в социални мрежи
+  \item пътни мрежи в навигационни системи
+  \item йерархични системи
+  \item биологични мрежи
+\end{itemize}
+Някои от задачите, които могат да решават са:
+\begin{itemize}
+  \item намиране на най-къс път от точка $A$ до точка $B$
+  \item намиране на съвместима наредба на дадени задачи
+  \item намиране на най-добро разписание на полети
+  \item класифициране на уебсайтове по популярност
+  \item маркетинг в социални мрежи
+  \item валидация на текст
+\end{itemize}
+
+\section*{Как представяме графите в паметта?}
+
+В зависимост от нашите цели графите могат да бъдат представени в паметта по различни начини.
+Най-използваните начини са:
+\begin{itemize}
+  \item списък на съседство -- за всеки връх се пазят в списък съседите му (и теглата ако има такива).
+  \item матрица на съседство -- пази се булева (може и числова ако графът е тегловен) таблица със всевъзможните комбинации от двойки върхове.
+        Ако между два върха има ребро, то в съответната клетка пише единица (или теглото на реброто при тегловен граф), иначе нула.
+  \item списък с ребрата -- множеството от ребра идва като списък. Обикновено ако графът е неориентиран се пази само една пермутация на реброто.
+\end{itemize}
+
+Матрицата на съседство се използва по-рядко.
+Този подход е добър, когато графите са гъсти т.е. има много ребра в тях.
+В противен случай ние заемаме много повече памет от колкото ни е нужна.
+За сметка на това можем да проверим дали между два върха има ребро за константно време.
+
+Списъците на съседство са по-пестеливи от към памет в средния случай, обаче за сметка на това по-бавно се проверява съседство между два върха.
+Този подход е добър, когато графите са редки т.е. имат малко ребра в тях.
+Също така ако по някаква причина ни трябва да изброяваме точно съседите на някакъв връх (да кажем за някакво обхождане), това очевидно е най-добрият начин.
+В най-лошия случай заемаме двойно повече памет от подхода с матрицата.
+
+Списъка с ребрата е най-пестеливия начин от тези три.
+Пази се минималното количество нужна информация.
+Проблемът тук е, че проверката за съседство и изброяването на съседи на даден връх са бавни.
+Обаче това представяне все пак се използва, например когато искаме да построим МПД.
+
+Накратко, сложностите са такива:
+\begin{center}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    подход               & памет           & проверка за съседство & изброяване на съседите $N(v)$ на връх $v$ \\
+    \hline
+    списък на съседство  & $O(|V| + |E|)$  & $O(|V|)$              & $\Theta(|N(v)|)$                          \\
+    \hline
+    матрица на съседство & $\Theta(|V|^2)$ & $\Theta(1)$           & $O(|V|)$                                  \\
+    \hline
+    списък с ребра       & $\Theta(|E|)$   & $O(|E|)$              & $O(|E|)$                                  \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\section*{Код на алгоритмите за обхождане на графи}
+
+\inputminted[linenos]{c++}{algorithms/traversal.cpp}
+
+\section*{Задачи}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден граф намира броя на свързаните компоненти.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден граф проверява дали той е цикличен.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден граф проверява дали той е дърво.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден граф (може и ориентиран) и два негови върха намира най-късия път между тях.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден граф (може и ориентиран), два негови върха и дължина намира броят на пътища между тях със съответната дължина.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден граф проверява дали той е двуделен.
+\end{problem}
+
+\begin{problem}
+Трябва да изпълним задачи $1, \dots, n$.
+Обаче имаме допълнителни изисквания $R[1 \dots k]$ от вида $\opair{i, j}$, които казват \textit{``задача $i$ трябва да се изпълни преди задача $j$''}.
+Да се напише алгоритъм, който при подадени изисквания намира последователност от задачи, която удовлетворява тези изисквания.
+Ако няма такива, да се върне съобщение за грешка.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден ориентиран тегловен граф намира теглата на минималните пътища между всеки два върха.
+\end{problem}
+
+\end{document}
