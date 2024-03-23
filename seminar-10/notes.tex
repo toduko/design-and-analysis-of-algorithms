@@ -1,0 +1,146 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{systeme}
+\usepackage{forest}
+\useforestlibrary{linguistics}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathcal{F}}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+{
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  linkcolor=blue
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Дефиниция}[section]
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{invariant}{Инвариант}
+\newtheorem{claim}[definition]{Твърдение}
+\newtheorem{axiom}[definition]{Аксиома}
+\newtheorem{lemma}[definition]{Лема}
+\newtheorem{corollary}[definition]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\setlength\parindent{0pt}
+
+\title{Още задачи върху графи}
+\author{Тодор Дуков}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Най-къси пътища в тегловен граф}
+
+Започваме с може би най-известния нетривиален графов алгоритъм -- алгоритъмът на Дийкстра за намиране на най-къси пътища в тегловен граф.
+При него започваме с един стартов връх, и намираме най-късите пътища между този стартов връх и всеки достижим от него.
+Ето как става това:
+\inputminted[linenos]{c++}{algorithms/dijkstra.cpp}
+Алгоритъмът има сложност по време $\Theta((|V| + |E|)\log(|V|))$ в най-лошия случай.
+
+\section*{Структурата Union-find/Disjoint-union}
+
+Ще разгледаме метод за поддържане на разбиване на множества от вида $\{ 0, \dots, n \}$.
+Искаме да започнем от разбиването $\{ \{ 0 \}, \dots, \{ n \} \}$, и след това бързо да можем да обединяваме множества и да проверяваме дали някои $i, j$ попадат на едно и също място в разбиването.
+За да може тези проверки и сливания да стават бързо, се използва структурата Union-find (понякога се нарича Disjoint-union).
+Ще имаме единствена функция $\operatorname{unify}(i, j)$, която приема $i, j \in \{ 0, \dots, n \}$ и слива множествата от разбиването, в които $i$ и $j$ участват.
+Ако преди това те са били в едно и също множество, то тогава накрая връщаме $\mathtt{false}$, иначе връщаме $\mathtt{true}$.
+
+\pagebreak
+
+Имплементацията е следната:
+\inputminted[linenos]{c++}{structures/union_find.hpp}
+Сложността на извикването на $\operatorname{unify}$ е $O(\alpha(n))$, където $\alpha$ е обратната функция на Акерман.
+Тази функция расте изключително бавно -- $\alpha(n) \leq 4$ за $n < 10^{600}$.
+
+\section*{Алгоритъмът на Крускал за намиране на минимално покриващо дърво}
+Графът ще пазим като масив от ребра:
+\inputminted[linenos]{c++}{structures/edge.hpp}
+
+Алгоритъмът на Крускал работи по доста естествен начин.
+Гледаме да приоритизираме ребрата с най-малки тегла.
+Не да ги добавяме само ако биха образували цикъл.
+
+Имплементацията е следната:
+\inputminted[linenos]{c++}{algorithms/kruskal.cpp}
+Сложността на алгоритъма по време е $\Theta(|E|\log(|E|))$ в най-лошия случай.
+
+\section*{Задачи}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден ориентиран тегловен граф намира теглата на минималните пътища между всеки два върха.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден тегловен ориентиран ацикличен граф и негов начален връх, намира най-късите пътище от този начален връх до всички достижими от него.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм, който при подаден свързан цикличен граф с ребро, чието премахване ще превърне графа в дърво, връща това ребро.
+\end{problem}
+
+\begin{problem}
+Нека е дадено крайно множество от променливи $X = \{ x_0, \dots x_k \}$.
+Уравнения над $X$ ще наричаме всички низове от вида $x_i = x_j$ и $x_i \neq x_j$ за $0 \leq i, j \leq k$.
+Да се напише алгоритъм, който при подадено множество от променливи $X$ и списък $E[1 \dots n]$ от уравнения над $X$, да проверява дали системата, съставена от списъка с уравнения има решение.
+\end{problem}
+
+\begin{problem}
+Алис и Боб имат граф с върхове измежду $0$ и $n$ и три типа ребра:
+\begin{itemize}
+  \item ребрата от тип $1$ могат да бъдат траверсирани само от Алис
+  \item ребрата от тип $2$ могат да бъдат траверсирани само от Боб
+  \item ребрата от тип $3$ могат да бъдат траверсирани и от двамата
+\end{itemize}
+Да се напише алгоритъм, който при подаден масив от ребра $E[1 \dots k]$ т.е. тройки от типа $\opair{type, i, j}$ за някои $type \in \{1, 2, 3\}$ и $i, j \in \{ 0, \dots, n \}$, връща максималния брой ребра, които могат да се махнат, и графът пак да може да бъде обходен от Алис и Боб.
+Ако някой от двамата не може да обходи първоначалния граф, да се върне $-1$.
+\end{problem}
+
+\begin{problem}
+За всеки две точки $(x_1, y_1)$ и $(x_2, y_2)$ в $\mathbb{Z} \cross \mathbb{Z}$, цената на свързване на $X$ и $Y$ ще бъде $|x_1 - x_2| + |y_1 - y_2|$.
+Да се напише алгоритъм, който при подаден масив $P[1 \dots n]$ от точки, намира минималната обща цена на свързване, за която между всеки две точки от $P[1 \dots n]$ ще има път.
+\end{problem}
+
+\end{document}
