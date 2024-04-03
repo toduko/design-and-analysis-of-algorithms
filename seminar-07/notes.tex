@@ -146,7 +146,7 @@
 
 Ще покажем, че при подаден сортиран масив $\mathtt{arr}$ с размер $\mathtt{n}$ и число $\mathtt{target}$, функцията $\mathtt{two\_sum(arr, n, target)}$ разпознава дали има $\mathtt{0 \leq i < j \leq n - 1}$, за които:
 \[
-    \mathtt{arr[i] + arr[j] = target} \text{ // всяка такава двойка } \mathtt{(i, j)} \text{ ще наричаме \textit{диада}}
+    \mathtt{arr[i] + arr[j] = target} \text{ // всяка такава двойка } \mathtt{(arr[i], arr[j])} \text{ ще наричаме \textit{диада}}
 \]
 \begin{invariant}
     При всяко достигане на проверката за край на цикъла на ред $5$, всички диади са в $\mathtt{arr[left \dots right]}$.
@@ -163,8 +163,8 @@
 \begin{itemize}
     \item[1 сл.] $\mathtt{arr[left] + arr[right] = target}$ -- това няма как да е изпълнено понеже достигането е нефинално
     \item[2 сл.] $\mathtt{arr[left] + arr[right] < target}$ -- тогава понеже $\mathtt{arr}$ е сортиран, за всяко $\mathtt{left + 1 \leq i \leq right}$ имаме, че $\mathtt{arr[left] + arr[i] \leq arr[left] + arr[right] < target}$.
-        Това означава, че $\mathtt{left}$ не участва в никоя диада във $\mathtt{arr[left \dots right]}$.
-        Така получаваме, че всички диади се намират в $\mathtt{arr[\underbrace{\mathtt{left + 1}}_{left_{new}} \dots right]}$
+          Това означава, че $\mathtt{left}$ не участва в никоя диада във $\mathtt{arr[left \dots right]}$.
+          Така получаваме, че всички диади се намират в $\mathtt{arr[\underbrace{\mathtt{left + 1}}_{left_{new}} \dots right]}$
     \item[3 сл.] $\mathtt{arr[left] + arr[right] > target}$ -- напълно дуален на 2 сл.
 \end{itemize}
 
