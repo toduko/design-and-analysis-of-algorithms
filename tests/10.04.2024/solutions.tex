@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a5paper, left=0.50in, right=0.50in, top=0.50in, bottom=0.50in]{geometry}
+\usepackage{stmaryrd}
+\usepackage{forest}
+\usepackage{cancel}
+\usepackage{minted}
+\usepackage{titling}
+\usetikzlibrary{automata, arrows, positioning, shapes}
+\useforestlibrary{linguistics}
+\pagenumbering{gobble}
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+ {
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue
+}
+
+\setlength\parindent{0pt}
+
+\newtheorem{problem}{Задача}
+\theoremstyle{definition}
+\newtheorem*{solution}{Решение}
+
+\begin{document}
+
+\begin{center}
+    \Large{Решения на задачите от първото малко контролно по ДАА на група 5, проведено на 10.04.2024 г.}
+\end{center}
+
+\vspace*{4mm}
+
+\begin{problem} {\bf (50 т.)}
+Дефинираме \textit{вълнист масив} индуктивно:
+\begin{itemize}
+    \item Всеки едноелементен масив е вълнист.
+    \item Масив $A[1 \dots n]$ (където $n > 1$) е вълнист, ако
+          \begin{enumerate}
+              \item масивът $A[1 \dots \lfloor \frac{n}{2} \rfloor]$ е сортиран, а
+              \item масивът $A[\lfloor \frac{n}{2} \rfloor + 1 \dots n]$ е вълнист.
+          \end{enumerate}
+\end{itemize}
+Да се състави алгоритъм с линейна сложност по време, който приема вълнист масив и го сортира.
+Коректността на алгоритъма да се обоснове формално и да се изследва сложността по време.
+\end{problem}
+
+\begin{solution}
+    Решението е проста модификация на алгоритъма за сортиране чрез сливане:
+    \begin{Verbatim}[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]
+Sort(A[1..n] - вълнист масив):
+    if n = 1:
+        return
+
+    Sort(A[$\mathtt{\lfloor\frac{n}{2}\rfloor}$ + 1..n])
+    Merge(A[1..$\mathtt{\lfloor\frac{n}{2}\rfloor}$], A[$\mathtt{\lfloor\frac{n}{2}\rfloor}$ + 1..n])
+    \end{Verbatim}
+    Тук $\mathtt{Merge}$ е алгоритъмът за сливане на сортирани масиви, който е изучаван на лекции.
+    Ще покажем коректността на $\mathtt{Sort}$ с пълна индукция по $\mathtt{n}$:
+    \begin{itemize}
+        \item ако $\mathtt{n = 1}$, то тогава $\mathtt{A[1..n]}$ е сортиран и алгоритъмът коректно веднага ще приключи работа;
+        \item ако $\mathtt{n > 1}$, то тогава на ред $5$ по ИП ще сортираме вълнистия масив $\mathtt{A[\lfloor\frac{n}{2}\rfloor + 1..n]}$ и с извикването на ред $6$ ще слеем масивите $\mathtt{A[1..\lfloor\frac{n}{2}\rfloor]}$ и $\mathtt{A[\lfloor\frac{n}{2}\rfloor + 1..n]}$, което ще сортира $\mathtt{A[1..n]}$.
+    \end{itemize}
+    Времевата сложност се описва със следното рекурентно уравнение:
+    \begin{center}
+        $T(n) = T(\frac{n}{2}) + \Theta(n)$ (заради извикванията $\mathtt{Sort}$ и $\mathtt{Merge}$).
+    \end{center}
+    По мастър-теоремата излиза, че $T(n) \asymp n$.
+\end{solution}
+
+\textbf{Критерии за оценяване:}
+\begin{itemize}
+    \item за правилен алгоритъм -- $20$ точки;
+    \item за доказателство на коректността на алгоритъма -- $20$ точки;
+    \item за обосновка на сложността по време -- $10$ точки.
+\end{itemize}
+
+\pagebreak
+
+\begin{problem} {\bf (70 т.)}
+Подредете по асимптотично нарастване следните \\ функции:
+\begin{align*}
+    f_1(n) & = n!             & f_2(n) & = \sum\limits_{k = 1}^{n} \ln(k)         & f_3(n) & = \sum\limits_{k = 1}^{n^3} \frac{1}{k} & f_4(n) & = (\ln(n))^{\ln(n)} \\
+    f_5(n) & = 3^{n \sqrt{n}} & f_6(n) & = \sum\limits_{k = 1}^{n!} \frac{1}{k^2} & f_7(n) & = \ln(\ln(n))                           & f_8(n) & = 2^{n^2}.
+\end{align*}
+При всяко сравнение на две функции се обосновете формално.
+\end{problem}
+
+\begin{solution}
+    Окончателната наредба е следната:
+    \[
+        f_6(n) \stackrel{(1)}{\prec} f_7(n) \stackrel{(2)}{\prec} f_3(n) \stackrel{(3)}{\prec} f_2(n) \stackrel{(4)}{\prec} f_4(n) \stackrel{(5)}{\prec} f_1(n) \stackrel{(6)}{\prec} f_5(n) \stackrel{(7)}{\prec} f_8(n).
+    \]
+    Доказателство:
+    \begin{itemize}
+        \item[$(1)$] $f_7(n) = \ln(\ln(n)) \succ 1 \asymp \sum\limits_{k = 1}^{n!} \frac{1}{k^2} = f_6(n)$.
+        \item[$(2)$] $f_3(n) = \sum\limits_{k = 1}^{n^3} \frac{1}{k} \asymp \ln(n^3) = 3 \ln(n) \asymp \ln(n) \succ f_7(n)$.
+        \item[$(3)$] $f_2(n) = \sum\limits_{k = 1}^{n} \ln(k) = \ln(n!) \asymp n \ln(n) \succ \ln(n) \asymp f_3(n)$.
+        \item[$(4)$] $f_4(n) = (\ln(n))^{\ln(n)} = n^{\ln(\ln(n))} \succ n \ln(n) \asymp f_2(n)$.
+        \item[$(5)$] $\ln(f_1(n)) \asymp n \ln(n) \succ \ln(n) \ln(\ln(n)) \asymp \ln(f_4(n))$, откъдето $f_1(n) \succ f_4(n)$.
+        \item[$(6)$] $\ln(f_5(n)) \asymp n \sqrt{n} \succ n \ln(n) \asymp \ln(f_1(n))$, откъдето $f_5(n) \succ f_1(n)$.
+        \item[$(7)$] $\ln(f_8(n)) \asymp n^2 \succ n \sqrt{n} \asymp \ln(f_5(n))$, откъдето $f_8(n) \succ f_5(n)$.
+    \end{itemize}
+\end{solution}
+
+\textbf{Критерии за оценяване:}
+\begin{itemize}
+    \item за всяко правилно сравнение от $(1)$ до $(7)$ -- по 5 точки;
+    \item за обосновка на всяко сравнение от $(1)$ до $(7)$ -- по 5 точки.
+\end{itemize}
+
+\end{document}
