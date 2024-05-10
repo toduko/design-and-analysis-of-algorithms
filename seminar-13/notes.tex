@@ -210,7 +210,7 @@
 \end{problem}
 
 \begin{problem}
-Разглеждаме задачата \textbf{PCC}:
+Разглеждаме задачата \textbf{SortPointsCounterClockwise}:
 
 \vspace*{2mm}
 \textbf{Вход:} Точки $P_1, \dots, P_n \in \N \cross \N$.
@@ -218,7 +218,19 @@
 \textbf{Изход:} Последователност $P'_1, \dots, P'_n$ на точките $P_1, \dots, P_n$, за която за всяко $1 \leq i < n$ е изпълнено, че най-малкото завъртане от вектора $\overrightarrow{OP'_i}$ към вектора $\overrightarrow{OP'_{i + 1}}$ става обратно на часовниковата стрелка, където $O$ е началото на координатната система.
 \vspace*{2mm}
 
-Да се докаже, че задачата \textbf{PCC} се решава чрез сравнения за време $\Omega(n \log(n))$.
+Да се докаже, че решението на задачата \textbf{SortPointsCounterClockwise} чрез сравнения изисква време $\Omega(n \log(n))$.
+\end{problem}
+
+\begin{problem}
+Разглеждаме задачата \textbf{SortPointsAngle}:
+
+\vspace*{2mm}
+\textbf{Вход:} Точки $P_1, \dots, P_n \in \N \cross \N$.
+
+\textbf{Изход:} Подреждане на точките $P_1, \dots, P_n$ по големина на ъгъла, който сключва радиус-векторът с $Ox$.
+\vspace*{2mm}
+
+Да се докаже, че решението на задачата \textbf{SortPointsAngle} чрез сравнения изисква време $\Omega(n \log(n))$.
 \end{problem}
 
 \begin{problem}
@@ -263,6 +275,42 @@
 
 \begin{problem}
 Да се докаже, че строенето на двоична пирамида от масив $A[1 \dots n]$ изисква $n - 1$ сравнения.
+\end{problem}
+
+\begin{problem}
+Разглеждаме задачата \textbf{ElementUniqueness}:
+
+\vspace*{2mm}
+\textbf{Вход:} Целочислен масив $A[1 \dots n]$.
+
+\textbf{Въпрос:} Вярно ли е, че масивът $A[1 \dots n]$ съдържа само уникални елементи?
+\vspace*{2mm}
+
+Да се докаже, че решението на задачата \textbf{ElementUniqueness} чрез сравнения изисква време $\Omega(n \log(n))$.
+\end{problem}
+
+\begin{problem}
+Разглеждаме задачата \textbf{Mode}:
+
+\vspace*{2mm}
+\textbf{Вход:} Целочислен масив $A[1 \dots n]$.
+
+\textbf{Изход:} Най-често срещано число в $A[1 \dots n]$.
+\vspace*{2mm}
+
+Да се докаже, че решението на задачата \textbf{Mode} чрез сравнения изисква време $\Omega(n \log(n))$.
+\end{problem}
+
+\begin{problem}
+Разглеждаме задачата \textbf{ClosestPair}:
+
+\vspace*{2mm}
+\textbf{Вход:} Целочислен масив $A[1 \dots n]$.
+
+\textbf{Изход:} $\min \{ |A[i] - A[j]| \mid 1 \leq i < j \leq n \}$.
+\vspace*{2mm}
+
+Да се докаже, че решението на задачата \textbf{ClosestPair} чрез сравнения изисква време $\Omega(n \log(n))$.
 \end{problem}
 
 \end{document}
