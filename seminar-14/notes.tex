@@ -1,0 +1,250 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{systeme}
+\usepackage{forest}
+\useforestlibrary{linguistics}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\calT}{\mathcal{T}}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+{
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  linkcolor=blue
+}
+
+\newcommand{\dc}[1]{\tikz \node[draw, circle, inner sep=0pt, minimum size=9mm]{#1};}
+\newcommand{\dt}[1]{\tikz \node[circle, inner sep=0pt, minimum size=9mm]{#1};}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Дефиниция}[section]
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{invariant}{Инвариант}
+\newtheorem{claim}[definition]{Твърдение}
+\newtheorem{axiom}[definition]{Аксиома}
+\newtheorem{lemma}[definition]{Лема}
+\newtheorem{corollary}[definition]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\setlength\parindent{0pt}
+
+\title{Класове на сложност \textbf{P} и \textbf{NP}}
+\author{Тодор Дуков}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Какво имаме предвид под класове на сложност?}
+
+При решаването на различни видове задачи, които ни интересуват, е естествено да се опитаме да ги класифицираме по това колко са \textit{``сложни''}.
+Това сме го виждали вече -- в курса по ЕАИ сме класифицирали различни езици спрямо това каква машина може да решава въпроса за принадлежност към съответния език.
+Тук ще направим нещо подобно, разликата ще бъде в това, че ще се интересуваме от това за какво време се решава една задача.
+\begin{itemize}
+    \item Класът на сложност \textbf{P} ще бъде множеството от всички изчислителни задачи за разпознаване, за които съществува алгоритъм с полиномиална времева сложност при най-лоши входни данни.
+    \item Класът на сложност \textbf{NP}\footnote{
+              За този клас има и алтернативна дефиниция -- в нея не е нужен сертификат, но се допуска алгоритъмът да е недетерминиран.
+              Идеята е, че той едновременно \textit{``познава''} правилния отговор, и го верифицира.
+          } ще бъде множеството от всички изчислителни задачи за разпознаване, за които съществува алгоритъм с полиномиална времева сложност при всякакви входни данни, проверяващ отговора ДА на задачата с помощта на допълнителен параметър, наречен \textbf{сертификат}, който зависи от входните данни на задачата и чиято дължина е полиномиална спрямо тяхната
+\end{itemize}
+Нека дадем пример за сертификат.
+Да кажем, че търсим отговор на въпроса
+\begin{center}
+    \textit{Вярно ли е, че уравнението $a_0 + a_1 x + \dots + a_n x^n = 0$ има реален корен?}
+\end{center}
+По-лесно ще бъде да верифицираме някое предложено решение т.е. да отговорим на въпроса
+\begin{center}
+    \textit{Вярно ли е, че реалното число $x_0$ е корен на уравнението $a_0 + a_1 x + \dots + a_n x^n = 0$?}
+\end{center}
+В него имаме още един параметър -- предложеното решение $x_0$.
+В този случай това ще бъде сертификатът.
+Въпреки, че в примера е направено така, не е нужно сертификата да се използва.
+Той е само помощен, и съществуването му е нужно само при отговор ДА.
+Ясно е, че при отговор НЕ няма и как да има сертификат.
+
+Неформално казано, в класа \textbf{P} се намират задачите, които се решават \textit{``бързо''} (за полиномиално време), а в класа \textbf{NP} се намират задачите, чиито решения се верифицират \textit{``бързо''}.
+Лесно може да се види, че $\mathbf{P} \subseteq \mathbf{NP}$.
+Ако една задача може да се реши за полиномиално време без да използва сертификат, то тогава тя може да се реши и със използване на сертификат.
+
+\section*{Няколко важни задачи за класа \textbf{NP}}
+
+Следните задачи за изключително важни за класа \textbf{NP} (по-късно ще разберем защо):
+\begin{itemize}
+    \item Задачата \textbf{SAT}:
+
+          \textbf{Вход:} Съждителна формула $\varphi$ в конюнктивна нормална форма.
+
+          \textbf{Въпрос:} Има ли оценка, в която $\varphi$ е вярна?
+    \item Задачата \textbf{3SAT}:
+
+          \textbf{Вход:} Съждителна формула $\varphi$ в конюнктивна нормална форма, при която във всяка дизюнктивна клауза участват точно три литерала.
+
+          \textbf{Въпрос:} Има ли оценка, в която $\varphi$ е вярна?
+    \item Задачата \textbf{SubsetSum}:
+
+          \textbf{Вход:} Масив $A[1 \dots n]$ от положителни числа и естествено число $s$.
+
+          \textbf{Въпрос:} Има ли $I \subseteq \{ 1, \dots, n \}$, за което $\sum\limits_{i \in I} A[i] = s$?
+    \item Задачата \textbf{2Partition}:
+
+          \textbf{Вход:} Масив $A[1 \dots n]$ от положителни числа.
+
+          \textbf{Въпрос:} Има ли $I \subseteq \{ 1, \dots, n \}$, за което $\sum\limits_{i \in I} A[i] = \sum\limits_{i \in \{ 1, \dots, n \} \setminus I} A[i]$?
+    \item Задачата \textbf{VertexCover}:
+
+          \textbf{Вход:} Граф $G = \opair{V, E}$ и естествено число $k$.
+
+          \textbf{Въпрос:} Има ли $X \subseteq V$, за което $|X| \leq k$ и $X$ съдържа поне един край на всяко ребро от $E$?
+    \item Задачата \textbf{DominatingSet}:
+
+          \textbf{Вход:} Граф $G = \opair{V, E}$ и естествено число $k$.
+
+          \textbf{Въпрос:} Има ли $X \subseteq V$, за което $|X| \leq k$ и всеки връх от $V \setminus X$ е съседен на някой от $X$?
+    \item Задачата \textbf{Clique}:
+
+          \textbf{Вход:} Граф $G = \opair{V, E}$ и естествено число $k$.
+
+          \textbf{Въпрос:} Има ли клика $X \subseteq V$, за която $|X| \geq k$?
+    \item Задачата \textbf{Anticlique}:
+
+          \textbf{Вход:} Граф $G = \opair{V, E}$ и естествено число $k$.
+
+          \textbf{Въпрос:} Има ли антиклика $X \subseteq V$, за която $|X| \geq k$?
+    \item Задачата \textbf{HamiltonianPath}:
+
+          \textbf{Вход:} Граф $G = \opair{V, E}$ и два върха $s, e \in V$.
+
+          \textbf{Въпрос:} Има ли хамилтонов път в $G$ от $s$ до $e$?
+    \item Задачата \textbf{EulerianPath}:
+
+          \textbf{Вход:} Граф $G = \opair{V, E}$ и два върха $s, t \in V$.
+
+          \textbf{Въпрос:} Има ли ойлеров път в $G$ от $s$ до $e$?
+    \item Задачата \textbf{TSP}:
+
+          \textbf{Вход:} Тегловен граф $G = \opair{V, E, w}$ и естествено число $k$.
+
+          \textbf{Въпрос:} Има ли хамилтонов път в $G$ с тегло ненадвишаващо $k$?
+\end{itemize}
+
+Нека покажем за някои от тях, че попадат в класа \textbf{NP}.
+
+Да започнем със \textbf{SAT}.
+Трябва да предложим полиномиален алгоритъм, който с помощта на сертификат проверява за отговор ДА.
+Сертифкатът ще бъде оценката.
+Оценката може да се представи като масив от променливи $V[1 \dots k]$, чиито членове са променливите, които имат стойност истина.
+Ясно е, че тази кодировка е с полиномиална относно формулата дължина.
+При дадена оценка, лесно можем да видим дали формулата е вярна:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/sat.txt}
+Този алгоритъм очевидно работи за полиномиално време.
+Наистина, той проверява дали $V[1 \dots k]$ задава оценка, в която $\varphi$ е вярна.
+Така \textbf{SAT} е в класа \textbf{NP}.
+Тъй като \textbf{3SAT} е просто по-лесна версия на \textbf{SAT}, тя също попада в класа \textbf{NP}.
+
+Нека сега видим, че \textbf{SubsetSum} е в класа \textbf{NP}.
+Тук сертификатът ще бъде масив $I[1 \dots k]$, който ще представя множество от индекси за входния масив.
+При дадено множество от индекси, лесно можем да проверим дали е изпълнено условието за сумата:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/subset_sum.txt}
+Този алгоритъм очевидно работи за полиномиално време.
+Наистина, той проверява дали $I[1 \dots k]$ задава подмножество $I$ на $\{ 1, \dots, n \}$, за което $\sum\limits_{i \in I} A[i] = s$.
+Така \textbf{SubsetSum} е в класа \textbf{NP}.
+
+\pagebreak
+
+Да видим сега, че \textbf{VertexCover} е в класа \textbf{NP}.
+Тук сертификатът ще бъде масив $X[1 \dots n]$, който ще представя множеството от върховете, които ще образуват потенциално върхово покритие.
+При дадено множество от върхове, лесно можем да видим дали то е върхово покритие с размер най-много $k$:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/vertex_cover.txt}
+Този алгоритъм очевидно работи за полиномиално време.
+Наистина, той проверява дали $X[1 \dots n]$ задава върхово покритие на $G$ с най-много $k$ елемента.
+Така \textbf{VertexCover} е в класа \textbf{NP}.
+
+Сега ще покажем, че \textbf{Clique} е в класа \textbf{NP}.
+Тук сертификатът ще бъде масив $X[1 \dots n]$, който ще представя множеството от върховете, които ще образуват потенциална клика.
+При дадено множество от върхове, лесно можем да видим дали то е клика с размер поне $k$:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/clique.txt}
+Този алгоритъм очевидно работи за полиномиално време.
+Наистина, той проверява дали $X[1 \dots n]$ задава клика в $G$ с поне $k$ елемента.
+Така \textbf{Clique} е в класа \textbf{NP}.
+
+\section*{Задачи}
+
+\begin{problem}
+Да се докаже, че следните задачи са в класа \textbf{NP}:
+\begin{itemize}
+    \item \textbf{2Partition};
+    \item \textbf{DominatingSet};
+    \item \textbf{Anticlique};
+    \item \textbf{HamiltonianPath};
+    \item \textbf{EulerianPath};
+    \item \textbf{TSP}.
+\end{itemize}
+\end{problem}
+
+\begin{problem}
+Разгледжаме задачата \textbf{StarFreeRegexIneq}:
+
+\vspace*{2mm}
+\textbf{Вход:} Два регулярни израза $r_1$ и $r_2$, в които не участва $*$.
+
+\textbf{Въпрос:} Вярно ли е, че $\mathcal{L}\llbracket r_1 \rrbracket \neq \mathcal{L}\llbracket r_2 \rrbracket$?
+\vspace*{2mm}
+
+Да се докаже, че задачата \textbf{StarFreeRegexIneq} е в класа \textbf{NP}.
+\end{problem}
+
+\begin{problem}
+Разгледжаме задачата \textbf{ChromaticNumber}:
+
+\vspace*{2mm}
+\textbf{Вход:} Граф $G = \opair{V, E}$ и естествено число $k$.
+
+\textbf{Въпрос:} Вярно ли е, че хроматичното число на $G$ не надвишава $k$?
+\vspace*{2mm}
+
+Да се докаже, че задачата \textbf{ChromaticNumber} е в класа \textbf{NP}.
+\end{problem}
+
+\end{document}

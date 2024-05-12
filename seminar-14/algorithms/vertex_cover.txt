@@ -1,0 +1,9 @@
+VertexCover($G = (V, E)$ - граф, $k$ - естествено число, $X[1 \dots n]$ - сертификат):
+    ако $n > k$:
+        върни False
+
+    за всяко ребро $(u, v) \in E$:
+        ако $u \notin X[1 \dots n]$ и $v \notin X[1 \dots n]$:
+            върни False
+
+    върни True
