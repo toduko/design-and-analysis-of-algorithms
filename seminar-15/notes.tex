@@ -1,0 +1,203 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{systeme}
+\usepackage{forest}
+\useforestlibrary{linguistics}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\NP}{\textbf{NP}}
+
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+{
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  linkcolor=blue
+}
+
+\newcommand{\dc}[1]{\tikz \node[draw, circle, inner sep=0pt, minimum size=9mm]{#1};}
+\newcommand{\dt}[1]{\tikz \node[circle, inner sep=0pt, minimum size=9mm]{#1};}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Дефиниция}[section]
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{invariant}{Инвариант}
+\newtheorem{claim}[definition]{Твърдение}
+\newtheorem{axiom}[definition]{Аксиома}
+\newtheorem{lemma}[definition]{Лема}
+\newtheorem{corollary}[definition]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\setlength\parindent{0pt}
+
+\title{\NP-трудност и \NP-пълнота}
+\author{Тодор Дуков}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{$\mathbf{P = NP}$ или $\mathbf{P \neq NP}$? Колко пък да е трудно?}
+
+За съжаление все още няма отговор на този въпрос -- не се знае дали $\mathbf{P = NP}$  или $\mathbf{P \neq NP}$.
+Най-доброто, което имаме до момента, са няколко задачи в класа \NP, които са изключително важни.
+Тези задачи в някакъв смисъл характеризират целия клас.
+Тях ще ги наричаме \NP-пълни.
+Формалната дефиниция е следната, една изчислителна задача \textbf{X} е \NP-пълна, ако:
+\begin{itemize}
+    \item \textbf{X} е в класа \NP;
+    \item всяка задача \textbf{Y} в класа \NP{ }може алгоритмично да се сведе до задачата \textbf{X} за полиномиално време.
+\end{itemize}
+Фактът, че \textbf{Y} се свежда до \textbf{X} за полиномиално време ще бележим с $\mathbf{Y} \leq_p \mathbf{X}$\footnote{На други места вместо $\leq_p$ се използват означенията $\leq^p_m$ и $\propto_p$.}.
+Лесно се вижда, че $\leq_p$ е транзитивна.
+Когато второто условие е изпълнено (без да е непременно изпълнено първото) казваме, че задачата \textbf{X} е \NP-трудна.
+
+Интересното за \NP-пълните задачи е следното:
+\begin{itemize}
+    \item ако покажем, че която и да е задача в \NP{ }се решава за полиномиално време, то тогава $\mathbf{P = NP}$;
+    \item ако покажем, че която и да е задача в \NP{ }не може да се реши за полиномиално време, то тогава $\mathbf{P \neq NP}$.
+\end{itemize}
+Всички \NP-пълни задачи са еквивалентни в смисъл, че всяка може да се сведе до другата за полиномиално време.
+Така имайки полиномиално алгоритъм, който решава някоя \NP-пълна задача \textbf{X}, то тогава можем да решим всяка задача \textbf{Y} от \NP{} за полиномиално време:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/solve_in_ptime.txt}
+
+Обаче ние нито имаме такъв алгоритъм, нито не знаем, че такъв алгоритъм няма.
+Това са задачи, които хем не можем да решим ефективно, хем не можем да покажем, че такова решение няма.
+Най-доброто, което можем да направим, е да покажем, задачата е еквивалентна по трудност на други задачи, за които други много умни хора не са се сетили.
+
+\section*{\textit{``Основната''} \NP-пълнa задача}
+
+По-принцип е трудно директно да се показва \NP-пълнота, ако се кара по дефиницията.
+Това, което обикновено се прави, е се показва по дефиниция, че една задача е \NP-пълна (все трябва да започнем от някъде), след което се правят полиномиални редукции от задачи, за които знаем, че са \NP-пълни, към задачите, която искаме да покажем, че са \NP-пълни.
+Тук се възползваме от транзитивността на $\leq_p$.
+Разбира се, това само би показало \NP-трудност, трябва и да се провери принадлежност към класа \NP.
+Задачата, от която обикновено се почва е тази за удовлетворимост/изпълнимост.
+
+\begin{theorem}[Кук-Левин]
+    Задачата \textbf{SAT} е \NP-пълна.
+\end{theorem}
+
+След това се показва, че $\mathbf{3SAT} \leq_p \mathbf{SAT}$.
+Ние вече знаем, че тя е в класа \NP, така че ако направим тази редукция, ще излезе, че \textbf{3SAT} е \NP-пълна задача.
+Можем да направим следната редукция -- за всеки дизюнкт $D$ във входната формула $\varphi$:
+\begin{itemize}
+    \item ако в $D$ участва точно един литерал $L$, то тогава избираме нови променливи $x$ и $y$, и заменяме $D$ с конюнкцията на дизюнктите $(L \lor x \lor y), (L \lor x \lor \overline{y}), (L \lor \overline{x} \lor y)$ и $(L \lor \overline{x} \lor \overline{y})$;
+    \item ако в $D$ участват два литерала $L_1, L_2$, то тогава избираме нова променлива $x$, и заменяме $D$ с конюнкцията на дизюнктите $(L_1 \lor L_2 \lor x)$ и $(L_1 \lor L_2 \lor \overline{x})$;
+    \item ако в $D$ участват три литерала, не променяме $D$;
+    \item ако в $D$ участват литералите $L_1, \dots, L_n$, където $n > 3$, то тогава избираме нови променливи $x_1, \dots, x_{n - 3}$, и заменяме $D$ с конюнкцията на дизюнктите
+          \[
+              (L_1 \lor L_2 \lor x_1), (L_3 \lor \overline{x_1} \lor x_2), (L_4 \lor \overline{x_2} \lor x_3), \dots, (L_{n - 2} \lor \overline{x_{n - 4}} \lor x_{n - 3}), (L_{n - 1} \lor L_n \lor \overline{x_{n - 3}}).
+          \]
+\end{itemize}
+Накрая ще получим като резултат формула $\psi$, която не е еквивалентна на $\varphi$, но е изпълнима т.с.т.к. $\varphi$ е изпълнима.
+На читателя оставяме да провери, че това е вярно.
+Остана само да проверим, че всичко това става за полиномиално време.
+Дължината на $\psi$ ще бъде полиномиална спрямо тази на $\varphi$, защото:
+\begin{itemize}
+    \item дизюнктите с един литерал се заменят с четири дизюнкта с три литерала;
+    \item дизюнктите с два литерала се заменят с два дизюнкта с три литерала;
+    \item дизюнктите с три литерала не се променят;
+    \item дизюнктите с $n > 4$ литерала се заменят с $n - 2$ дизюнкта с три литерала.
+\end{itemize}
+По-съмнителното е търсенето на нови променливи, но и това няма как да е прекалено бавно, защото броят на променливите, които участват в една формула е по-малък или равен на дължината ѝ.
+Тъй като ние ще получим формула с полиномиална на $\varphi$ дължина, в нея ще участват най-много полиномиално на $\varphi$ променливи.
+Това означава, че ако всеки път търсим неизползваната променлива с най-малък индекс, няма да търсим прекалено дълго.
+С това получаваме, че \textbf{3SAT} е \NP-трудна задача, и понеже сме показвали че е в класа \NP, то тя е и \NP-пълна.
+
+\section*{Класически \NP-пълни задачи}
+
+Ще покажем няколко класически примери за \NP-пълни задачи.
+Тъй като за тях сме доказвали, че са в класа \NP, ни остава само да покажем, че са \NP-трудни.
+Нека сега покажем, че $\mathbf{3SAT} \leq_p \mathbf{Clique}$.
+Нека $\varphi$ е формула в 3КНФ със $n$ на брой дизюнкта.
+За полиномиално време ще построим граф $G$, за които $\varphi$ е изпълнима т.с.т.к. $G$ съдържа $n$-клика.
+За всеки дизюнкт $(L_1(x) \lor L_2(y) \lor L_3(z))$, който участва във $\varphi$, в графа $G$ има върховете от вида $\{ \opair{x, v_x}, \opair{y, v_y}, \opair{z, v_z} \}$, където $v_x, v_y, v_z \in \{ \T, \F \}$ и интерпретирайки $t$ като $v_t$ за $t \in \{ x, y, z \}$, дизюнкта $(L_1(x) \lor L_2(y) \lor L_3(z))$ се оценява като $\T$.
+Ребра ще има между тези множества, които не си противоречат т.е. няма променлива $x$, за която $\opair{x, \T}$ да участва в едното множество и $\opair{x, \F}$ да участва в другото.
+По построение е очевидно, че в $G$ има $n$ клика т.с.т.к. $\varphi$ е изпълнима.
+В едната посока кликата ни казва точно как да оценим променливите, а в другата посока от оценката можем да извлечем кликата.
+Тъй като за всеки дизюнкт получаваме най-много $2^3$ върхове, то тогава конструкцията е полиномиална.
+С това показахме, че \textbf{Clique} е \NP-трудна задача, откъдето е и \NP-пълна.
+
+Сега нека да видим, че $\mathbf{Clique} \leq_p \mathbf{VertexCover}$.
+За входния граф $G = \opair{V, E}$ строим $\overline{G} = \opair{V, \overline{E}}$, където:
+\[
+    \overline{E} = \{ (u, v) \mid u, v \in V \: \& \: (u, v) \notin E \}.
+\]
+Този граф очевидно се строи за време $\Theta(|V|^2)$.
+Оказва се, че за всяко $X \subseteq V$ е изпълнено, че:
+\begin{center}
+    $X$ е клика в $G$ $\iff$ $V \setminus X$ е върхово покритие в $\overline{G}$.
+\end{center}
+
+$(\Rightarrow)$
+Нека $X$ е клика в $G$.
+Тогава което и ребро $(u, v) \in \overline{E}$ да вземем, $u \notin X$ или $v \notin X$.
+Ако $u, v \in X$, то тогава тъй като $(u, v) \in \overline{E}$, то тогава $(u, v) \notin E$, което противоречи с факта, че $X$ е клика.
+Така наистина $V \setminus X$ е върхово покритие в $\overline{G}$.
+
+$(\Leftarrow)$
+Нека $X$ не е клика в $G$.
+Тогава има два върха $u, v \in X$, за които $(u, v) \notin E$.
+Но тогава $(u, v) \in \overline{E}$, откъдето $V \setminus X$ не е върхово покритие в $\overline{G}$.
+
+Псевдокода на редукцията би изглеждал така:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/clique_to_vertex_cover.txt}
+С това показахме, че \textbf{VertexCover} е \NP-трудна задача, откъдето е и \NP-пълна.
+
+\pagebreak
+
+Да видим, и че $\mathbf{Clique} \leq_p \mathbf{Anticlique}$.
+Използвайки същата конструкция от предната задача, лесно се вижда, че:
+\begin{center}
+    $X$ е клика в $G$ $\iff$ $X$ е антиклика в $\overline{G}$
+\end{center}
+Псевдокода на редукцията би изглеждал така:
+\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/clique_to_anticlique.txt}
+С това показахме, че \textbf{Anticlique} е \NP-трудна задача.
+Принадлежността към класа \NP{ } е очевидна.
+Така задачата е \NP-пълна.
+
+
+\end{document}

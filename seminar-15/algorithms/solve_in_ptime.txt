@@ -1,0 +1,5 @@
+Реши$\mathbf{Y}$(Вход$\mathbf{Y}$):
+    Вход$\mathbf{X}$ $\leftarrow$ РедуцирайВход$\mathbf{Y}$ДоВход$\mathbf{X}$ЗаПолиномиалноВреме(Вход$\mathbf{Y}$)
+    Изход$\mathbf{X}$ $\leftarrow$ Реши$\mathbf{X}$ЗаПолиномиалноВреме(Вход$\mathbf{X}$)
+    Изход$\mathbf{Y}$ $\leftarrow$ РедуцирайИзход$\mathbf{X}$ДоИзход$\mathbf{Y}$ЗаПолиномиалноВреме(Изход$\mathbf{X}$)
+    върни Изход$\mathbf{Y}$

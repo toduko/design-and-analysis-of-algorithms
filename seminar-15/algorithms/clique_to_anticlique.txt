@@ -1,0 +1,9 @@
+Реши$\mathbf{Clique}$Чрез$\mathbf{Anticlique}$($G = (V, E)$ граф, $k$ - естествено число):
+    инициализирай граф $\overline{G} = (V, \varnothing)$
+
+    за всеки връх $u \in V$:
+        за всеки връх $v \in V$:
+            ако $u \neq v$ и $(u, v) \notin E$:
+                добави реброто $(u, v)$ към $\overline{G}$
+
+    върни Реши$\mathbf{Anticlique}$($\overline{G}$, $k$)
