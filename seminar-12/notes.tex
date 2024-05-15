@@ -92,8 +92,8 @@
 Тогава булевата функция $\operatorname{WB}_{D, \alpha}(i)$, която казва дали $\alpha_1 \dots \alpha_i$ може да се разбие на думи от $D$, изглежда така:
 \[
   \operatorname{WB}_{D, \alpha}(i) = \begin{cases}
-    \T                                                                                                     & \text{, ако } i = 0 \\
-    \bigvee\limits_{j = 1}^i (\alpha_j \dots \alpha_i \in D \: \& \: \operatorname{WB}_{D, \alpha}(j - 1)) & \text{, иначе}
+    \T                                                                                                                                 & \text{, ако } i = 0 \\
+    \bigvee\limits_{\beta \in D} (\alpha_{i - |\beta| + 1} \dots \alpha_i = \beta \: \& \: \operatorname{WB}_{D, \alpha}(i - |\beta|)) & \text{, иначе}
   \end{cases}
 \]
 
