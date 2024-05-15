@@ -4,7 +4,7 @@ Clique($G = (V, E)$ - граф, $k$ - естествено число, $X[1 \dot
 
     за всеки връх $u \in X[1 \dots n]$:
         за всеки връх $v \in X[1 \dots n]$:
-            ако $u \neq v$ и $(u, v) \notin V$:
+            ако $u \neq v$ и $(u, v) \notin E$:
                 върни False
 
     върни True
