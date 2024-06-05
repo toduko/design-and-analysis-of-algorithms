@@ -1,0 +1,135 @@
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[bulgarian]{babel}
+
+\newcommand\examname{Второ малко контролно по ДАА на група 5}
+\newcommand\examdate{05.06.2024 г.}
+\newcommand\setsize{\footnotesize}%\normalsize,\small,\footnotesize
+\newcommand\remark{Времето за работа е 1 час. Полежавам ви успех.}
+\newcommand\quotea{Imparatorum est fortunam sperare.}
+\newcommand\quoteb{Fortuna solis imparatis necessis est.}
+\newcommand\problems{
+
+\begin{problem} {\bf (60 т.)}
+  \textit{Хубаво} число ще наричаме всяко естествено число  от вида $2^a 3^b$ за някои $a, b \in \mathbb{N}$.
+  Да се състави \textbf{итеративен} алгоритъм, който при подадено $n \in \mathbb{N}$ връща $(n + 1)$-вото по големина хубаво число.
+  Алгоритъмът \textbf{трябва} да е съставен по схемата \textbf{динамично програмиране} и да има сложност по време $\Theta(n)$.
+  Няма нужда да се прави доказателство за коректност, достатъчно е да се напише правилен инвариант.
+\end{problem}
+
+\begin{problem} {\bf (60 т.)}
+  Нека разгледаме задачата TABLE-SUM:
+  \vspace*{2mm}
+
+  \hspace*{4mm}\textbf{Вход:} Таблица от естествени числа $T[1 \dots n, 1 \dots m]$ и $t \in \mathbb{N}$.
+
+  \hspace*{4mm}\textbf{Въпрос:} Има ли $1 \leq i_1, \dots, i_n \leq m$, за които $\sum\limits_{k = 1}^n T[k, i_k] = t$?
+
+  \vspace*{1mm}
+  Докажете формално, че TABLE-SUM е \textbf{NP}-пълна задача.
+\end{problem}
+}
+\newcommand\varianta{
+
+\problems
+
+\remark
+
+\textit{\quotea}
+}
+
+\newcommand\variantb{
+
+\problems
+
+\remark
+
+\textit{\quoteb}
+
+}
+
+\usepackage{tikz}
+\usepackage{pgf}
+\usetikzlibrary{shapes,arrows,automata}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}                
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{alltt}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Задача}
+
+\setlength{\textwidth}{210mm} 
+\setlength{\textheight}{297mm} 
+\setlength{\topmargin}{0mm} 
+\setlength{\voffset}{-1in} 
+\setlength{\hoffset}{-1in}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\parindent 0.5cm
+\oddsidemargin 0cm
+\evensidemargin 0cm
+
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Int}{\mathbb{Z}}
+\newcommand{\Real}{\mathbb{R}}
+\def\dotminus{\mathbin{\ooalign{\hss\raise1ex\hbox{.}\hss\cr
+             \mathsurround=0pt$-$}}}
+
+\newcommand{\ExamHeader}{
+  \footnotesize%
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \multirow{2}{*}{Име:} & \multicolumn{3}{|c|}{\phantom{whyareyouwastingyourtime}} & \multirow{2}{*}{ФН:} & \phantom{readingthistext:D}\\
+  & \multicolumn{3}{|c|}{} & &\\
+    \hline
+  \end{tabular}
+  
+  \vspace*{2mm}
+
+  \centerline{\examname}
+  \centerline{\examdate}
+}
+
+\newcommand\twominipages{
+  \noindent\hfill
+  \begin{minipage}[t]{82mm}
+    \ExamHeader
+    \setcounter{problem}{0}
+    
+    \varianta
+  \end{minipage}
+  \hfill\hfill
+  \begin{minipage}[t]{82mm}
+    \ExamHeader
+    \setcounter{problem}{0}
+
+    \variantb
+  \end{minipage}
+  \hspace*{\fill}
+}
+
+
+\begin{document}\thispagestyle{empty} \setsize
+
+\vspace*{4mm}
+\twominipages
+
+\vspace*{8mm}
+\twominipages
+
+\vspace*{8mm}
+\twominipages
+
+\vspace*{8mm}
+\twominipages
+
+\vfill
+\vspace*{4mm}
+
+
+\end{document}

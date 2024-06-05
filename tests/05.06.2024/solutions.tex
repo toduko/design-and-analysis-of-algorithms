@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage[a5paper, left=0.50in, right=0.50in, top=0.50in, bottom=0.50in]{geometry}
+\usepackage{stmaryrd}
+\usepackage{forest}
+\usepackage{cancel}
+\usepackage{minted}
+\usepackage{titling}
+\usetikzlibrary{automata, arrows, positioning, shapes}
+\useforestlibrary{linguistics}
+\pagenumbering{gobble}
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+ {
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue
+}
+
+\setlength\parindent{0pt}
+
+\newtheorem{problem}{Задача}
+\theoremstyle{definition}
+\newtheorem*{solution}{Решение}
+
+\begin{document}
+
+\begin{center}
+    \Large{Решения на задачите от второто малко контролно по ДАА на група 5, проведено на 05.06.2024 г.}
+\end{center}
+
+\vspace*{4mm}
+
+\begin{problem} {\bf (60 т.)}
+\textit{Хубаво} число ще наричаме всяко естествено число  от вида $2^a 3^b$ за някои $a, b \in \mathbb{N}$.
+Да се състави \textbf{итеративен} алгоритъм, който при подадено $n \in \mathbb{N}$ връща $(n + 1)$-вото по големина хубаво число.
+Алгоритъмът \textbf{трябва} да е съставен по схемата \textbf{динамично програмиране} и да има сложност по време $\Theta(n)$.
+Няма нужда да се прави доказателство за коректност, достатъчно е да се напише правилен инвариант.
+\end{problem}
+
+\begin{solution}
+    Следният алгоритъм решава задачата:
+    \begin{Verbatim}[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]
+Beautiful(Nat n):
+    Аrray(Nat) B[0..n]
+    B[0] $\leftarrow$ 1
+    Nat two_idx $\leftarrow$ 0
+    Nat three_idx $\leftarrow$ 0
+
+    for i $\leftarrow$ 1 to n:
+        two_candidate $\leftarrow$ 2 * B[two_idx]
+        three_candidate $\leftarrow$ 3 * B[three_idx]
+        B[i] $\leftarrow$ min(two_candidate, three_candidate)
+
+        if B[i] = two_candidate:
+            two_idx $\leftarrow$ two_idx + 1
+        if B[i] = three_candidate:
+            three_idx $\leftarrow$ three_idx + 1
+
+    return B[n]
+    \end{Verbatim}
+
+    \textbf{Инвариант.} При всяко достигане на условието за край на цикъла на ред 7:
+    \begin{itemize}
+        \item {\tt B[j]} е {\tt (j+1)}-вото хубаво число за всяко {\tt j} между {\tt 0} и {\tt i-1} включително;
+        \item {\tt B[two\_idx]} е най-малкото хубаво число {\tt k}, за което {\tt 2k} е извън масива {\tt B[0..i-1]};
+        \item {\tt B[three\_idx]} е най-малкото хубаво число {\tt k}, за което {\tt 3k} е извън масива {\tt B[0..i-1]}.
+    \end{itemize}
+\end{solution}
+
+\textbf{Критерии за оценяване:}
+\begin{itemize}
+    \item за правилен алгоритъм -- 30 точки;
+    \item за правилно формулиран инвариант -- 30 точки.
+\end{itemize}
+
+\pagebreak
+
+\begin{problem} {\bf (60 т.)}
+Нека разгледаме задачата {\normalfont TABLE-SUM:}
+\vspace*{2mm}
+
+\hspace*{4mm} \textbf{Вход:} Таблица от естествени числа $T[1 \dots n, 1 \dots m]$ и $t \in \mathbb{N}$.
+
+\hspace*{4mm} \textbf{Въпрос:} Има ли $1 \leq i_1, \dots, i_n \leq m$, за които $\sum\limits_{k = 1}^n T[k, i_k] = t$?
+
+\vspace*{1mm}
+Докажете формално, че {\normalfont TABLE-SUM} е \textbf{NP}-пълна задача.
+\end{problem}
+
+\begin{solution}
+    При подадена таблица $T[1 \dots n, 1 \dots m]$ и сертификат $C[1 \dots n]$, представящ индекси $1 \leq i_1, \dots, i_n \leq m$, можем за време $\Theta(n)$ да проверим дали е изпълнено, че:
+    \[
+        \sum\limits_{k = 1}^n T[k, i_k] = t.
+    \]
+    Така задачата TABLE-SUM е в класа \textbf{NP}.
+
+    Също така много лесно можем за полиномиално време да сведем задачата SUBSET-SUM към задачата TABLE-SUM.
+    При подаден вход масив $A[1 \dots n]$ и число $t \in \mathbb{N}$ за време $\Theta(n)$ можем да построим таблица $T[1 \dots n, 1 \dots 2]$, където $T[i, 1] = A[i]$ и $T[i, 2] = 0$.
+    Тогава са изпълнени следните твърдения:
+    \begin{enumerate}
+        \item Ако има подредица на $A[1 \dots n]$ със сума на елементите $t$, то тогава за всяко $1 \leq j \leq n$ ще дефинираме $i_j$ да бъде $1$ т.с.т.к. $A[i]$ участва в съответната подредица.
+              Индексите $1 \leq i_1, \dots, i_n \leq 2$ имат желаното свойство.
+        \item Ако $1 \leq i_1, \dots, i_n \leq 2$ са индекси с желаното свойство, то взимайки тези $1 \leq j \leq n$, за които $i_j = 1$, ще получим подредица на $A[1 \dots n]$, елементите на която се сумират до $t$.
+    \end{enumerate}
+    С това получихме, че задачата TABLE-SUM е \textbf{NP}-трудна, и понеже принадлежи на класа \textbf{NP}, тя е \textbf{NP}-пълна.
+\end{solution}
+
+\textbf{Критерии за оценяване:}
+\begin{itemize}
+    \item за обосновка, че TABLE-SUM е в класа \textbf{NP} -- 30 точки;
+    \item за обосновка, че TABLE-SUM е $\textbf{NP}$-трудна задача  -- 30 точки.
+\end{itemize}
+
+\end{document}
