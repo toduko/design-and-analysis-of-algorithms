@@ -1,0 +1,136 @@
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[bulgarian]{babel}
+
+\newcommand\examname{Първо малко контролно по ДАА на група 5}
+\newcommand\examdate{10.04.2024 г.}
+\newcommand\setsize{\footnotesize}%\normalsize,\small,\footnotesize
+\newcommand\remark{Времето за работа е 1 час. Полежавам ви успех.}
+\newcommand\quotea{Imparatorum est fortunam sperare.}
+\newcommand\quoteb{Fortuna solis imparatis necessis est.}
+\newcommand\problems{
+
+\begin{problem} {\bf (50 т.)}
+  Дефинираме \textit{вълнист масив} индуктивно:
+  \begin{itemize}
+    \item Всеки едноелементен масив е вълнист.
+    \item Масив $A[1 \dots n]$ (където $n > 1$) е вълнист, ако
+      \begin{enumerate}
+        \item масивът $A[1 \dots \lfloor \frac{n}{2} \rfloor]$ е сортиран, а
+        \item масивът $A[\lfloor \frac{n}{2} \rfloor + 1 \dots n]$ е вълнист.
+      \end{enumerate}
+  \end{itemize}
+  Да се състави алгоритъм с линейна сложност по време, който приема вълнист масив и го сортира.
+  Коректността на алгоритъма да се обоснове формално и да се изследва сложността по време.
+\end{problem}
+
+\begin{problem} {\bf (70 т.)}
+  Подредете по асимптотично нарастване следните функции:
+  \begin{align*}
+    f_1(n) &= n! &f_2(n) &= \sum\limits_{k = 1}^{n} \ln(k) &f_3(n) &= \sum\limits_{k = 1}^{n^3} \frac{1}{k} &f_4(n) &= (\ln(n))^{\ln(n)} \\
+    f_5(n) &= 3^{n \sqrt{n}} &f_6(n) &= \sum\limits_{k = 1}^{n!} \frac{1}{k^2} &f_7(n) &= \ln(\ln(n)) &f_8(n) &= 2^{n^2}.
+  \end{align*}
+  При всяко сравнение на две функции се обосновете формално.
+\end{problem}
+}
+\newcommand\varianta{
+
+\problems
+
+\remark
+
+\textit{\quotea}
+}
+
+\newcommand\variantb{
+
+\problems
+
+\remark
+
+\textit{\quoteb}
+
+}
+
+\usepackage{tikz}
+\usepackage{pgf}
+\usetikzlibrary{shapes,arrows,automata}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}                
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{alltt}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Задача}
+
+\setlength{\textwidth}{210mm} 
+\setlength{\textheight}{297mm} 
+\setlength{\topmargin}{0mm} 
+\setlength{\voffset}{-1in} 
+\setlength{\hoffset}{-1in}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\parindent 0.5cm
+\oddsidemargin 0cm
+\evensidemargin 0cm
+
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Int}{\mathbb{Z}}
+\newcommand{\Real}{\mathbb{R}}
+\def\dotminus{\mathbin{\ooalign{\hss\raise1ex\hbox{.}\hss\cr
+             \mathsurround=0pt$-$}}}
+
+\newcommand{\ExamHeader}{
+  \footnotesize%
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \multirow{2}{*}{Име:} & \multicolumn{3}{|c|}{\phantom{whyareyouwastingyourtime}} & \multirow{2}{*}{ФН:} & \phantom{readingthistext:D}\\
+  & \multicolumn{3}{|c|}{} & &\\
+    \hline
+  \end{tabular}
+  
+  \vspace*{2mm}
+
+  \centerline{\examname}
+  \centerline{\examdate}
+}
+
+\newcommand\twominipages{
+  \noindent\hfill
+  \begin{minipage}[t]{82mm}
+    \ExamHeader
+    \setcounter{problem}{0}
+    
+    \varianta
+  \end{minipage}
+  \hfill\hfill
+  \begin{minipage}[t]{82mm}
+    \ExamHeader
+    \setcounter{problem}{0}
+
+    \variantb
+  \end{minipage}
+  \hspace*{\fill}
+}
+
+
+\begin{document}\thispagestyle{empty} \setsize
+
+\vspace*{4mm}
+\twominipages
+
+\vspace*{8mm}
+\twominipages
+
+\vspace*{8mm}
+\twominipages
+
+% % \vfill
+% \vspace*{4mm}
+
+
+\end{document}
