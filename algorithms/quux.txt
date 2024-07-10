@@ -1,0 +1,11 @@
+$\mathfrak{bar}$($n \in \Z$): return $\sqrt{n^2}$
+
+$\mathfrak{foo}$($x, y \in Z$): return $\frac{x + y + \mathfrak{bar}(x - y)}{2}$
+
+$\mathfrak{quux}$($A[1 \dots n] \in \arr$):
+    $a \leftarrow A[1]$
+
+    for $i \leftarrow 2$ to $n$:
+        $a \leftarrow \mathfrak{foo}(a, A[i])$
+
+    return $a$

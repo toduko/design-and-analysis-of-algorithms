@@ -1,0 +1,9 @@
+Kadane($A[1 \dots n] \in \arr$):
+    $max\_so\_far \leftarrow A[1]$
+    $max\_ending\_here \leftarrow A[1]$
+
+    for $i \leftarrow 2$ to $n$:
+        $max\_ending\_here = \max(max\_ending\_here + A[i], A[i])$
+        $max\_so\_far = \max(max\_ending\_here, max\_so\_far)$
+
+    return $max\_so\_far$

@@ -1,0 +1,8 @@
+NumSlopes($A[1 \dots n] \in \arr$):
+    $s \leftarrow 1$
+
+    for $i \leftarrow 2$ to $n$:
+        if $A[i - 1] > A[i]$:
+            $s \leftarrow s + 1$
+
+    return $s$

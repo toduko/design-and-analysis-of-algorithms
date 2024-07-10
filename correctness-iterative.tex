@@ -12,7 +12,7 @@
     \end{itemize}
 \end{remark}
 
-\section{Едно \textit{``ново''} понятие}
+\section{Едно \textit{``ново''} понятие -- инвариант}
 
 Специално за итеративните алгоритми се въвежда ново понятие - \textbf{инвариант}.
 Това са специални твърдения, свързани с цикъла.
@@ -33,7 +33,7 @@
     Когато в алгоритъма ни има няколко цикъла, на всеки от тях трябва да съответства по един инвариант.
 \end{warning}
 
-\section{Пример}
+\section{Инвариантите в действие}
 
 Нека разгледаме следния алгоритъм за степенуване на $2$:
 \lstinputlisting{algorithms/pow2.txt}
@@ -98,6 +98,98 @@
 Обикновено в доказателството на коректност на алгоритми най-трудното е да се формулира инвариантът.
 Ако човек има добре формулирана инвариант, доказателството e на първо място възможно, а на второ -- по-лесно.
 
+\section{Подход при задачи с вече даден алгоритъм}
+
+Нека разгледаме следния алгоритъм:
+\lstinputlisting{algorithms/foo.txt}
+Питаме се какво връща той?
+
+Обикновено в такива задачи трябва да се изпробва алгоритъма върху няколко стойности.
+Можем да забележим, че:
+\begin{itemize}
+    \item $\mathtt{foo}(0)$ връща $0$;
+    \item $\mathtt{foo}(1)$ връща $1$;
+    \item $\mathtt{foo}(2)$ връща $8$ и така нататък.
+\end{itemize}
+
+Вече можем да видим какво прави алгоритъмът -- $\mathtt{foo}(a)$ връща $a^3$.
+Нека сега докажем това:
+\begin{invariant}
+    При всяко достигане на проверката за край на цикъла на ред $5$ е изпълнено, че:
+    \begin{itemize}
+        \item $x = 6 (1 + i)$;
+        \item $y = 3i^2 + 3i + 1$;
+        \item $z = i^3$.
+    \end{itemize}
+\end{invariant}
+\begin{proof}
+    \phantom{1}
+
+    \textbf{База.}
+    При първото достигане имаме, че:
+    \begin{itemize}
+        \item $i = 0$;
+        \item $x = 6 = 6 \cdot 1 = 6 (1 + 0) = 6 (1 + i)$;
+        \item $y = 1 = 3 \cdot 0^2 + 3 \cdot 0 + 1 = 3i^2 + 3i + 1$;
+        \item $z = 0 = 0^3 = i^3$.
+    \end{itemize}
+
+    \textbf{Поддръжка.}
+    Нека твърдението е изпълнено за някое непоследно достигане на проверката за край на цикъла.
+    Тогава при влизане в тялото на цикъла:
+    \begin{itemize}
+        \item $z$ ще стане $z + y \stackrel{\text{(ИП)}}{=} i^3 + 3i^2 + 3i + 1 = (\underbrace{i + 1}_{\text{ново } i})^3$;
+        \item $y$ ще стане $y + x \stackrel{\text{(ИП)}}{=} 3i^2 + 3i + 1 + 6 + 6i = 3(\underbrace{i + 1}_{\text{ново } i})^2 + 3(\underbrace{i + 1}_{\text{ново } i}) + 1$;
+        \item $x$ ще стане $x + 6 \stackrel{\text{(ИП)}}{=} 6(1 + i) + 6 = 6(1 + \underbrace{i + 1}_{\text{ново } i})з$.
+    \end{itemize}
+
+    \textbf{Терминация.}
+    В последното достигане на проверката за край на цикъла имаме, че $i = a$, и тогава на ред $12$ алгоритъмът ще върне $z = a^3$.
+
+    \textbf{Финитност.} (от тук нататък повечето няма да ги пишем)
+    Величината $a - i$ започва с $a$, и намалява с $1$, докато не стигне $0$, когато ще излезнем от цикъла.
+    Следователно алгоритъмът винаги завършва.
+\end{proof}
+
+\newpage
+
+Нека разгледаме още един такъв пример:
+\lstinputlisting{algorithms/quux.txt}
+
+Искаме да видим какво връща $\mathfrak{quux}(A[1 \dots n])$.
+Тук най-трудното, което трябва да се направи, е да се определи какво връщат $\mathfrak{bar}$ и $\mathfrak{foo}$:
+\begin{itemize}
+    \item $\mathfrak{bar}(n) = \sqrt{n ^ 2} = | n |$;
+    \item $\mathfrak{foo}(x, y) = \frac{x + y + |x - y|}{2}  = \max\{ x, y \}$:
+          \begin{itemize}
+              \item ако $x \geq y$, то $\frac{x + y + |x - y|}{2} = \frac{x + y + x - y}{2} = \frac{2x}{2} = x = \max\{ x, y \}$,
+              \item ако $x < y$, то $\frac{x + y + |x - y|}{2} = \frac{x + y + y - x}{2} = \frac{2y}{2} = y = \max\{ x, y \}$.
+          \end{itemize}
+\end{itemize}
+
+Като знаем какво правят $\mathfrak{bar}$ и $\mathfrak{foo}$, можем да забележим, че $\mathfrak{quux}(A[1 \dots n])$ дава най-големия елемент на $A[1 \dots n]$:
+\begin{invariant}
+    При всяко достигане на проверката за край на цикъла на ред $15$ е изпълнено, че $a = \max A[1 \dots i - 1]$.
+\end{invariant}
+
+\begin{proof}
+    \phantom{1}
+
+    \textbf{База.}
+    Наистина при първото достигане $a = A[1] = \max A[1 \dots i - 1]$.
+
+    \textbf{Поддръжка.}
+    Нека твърдението е изпълнено за някое непоследно достигане на проверката за край на цикъла.
+    Тогава като влезем в тялото на цикъла, променливата $a$ става:
+    \begin{align*}
+        \mathfrak{foo}(a, A[i])  \stackrel{\text{(ИП)}}{=} \mathfrak{foo}(\max A[1 \dots i - 1], A[i]) = & \max (\max A[1 \dots i - 1], A[i])                                          \\
+        =                                                                                                & \max A[1 \dots i] = \max A[1 \dots \underbrace{i + 1}_{\text{ново } i} - 1]
+    \end{align*}
+
+    \textbf{Терминация.}
+    При последното достигане на проверката за край на цикъла на ред $15$ променливата $i$ ще бъде $n + 1$, откъдето функцията ще върне точно $a = \max A[1 \dots (n + 1) - 1] = \max A[1 \dots n]$, с което сме готови.
+\end{proof}
+
 \section{Задачи}
 
 \begin{problem}
@@ -119,8 +211,6 @@
 \end{enumerate}
 \end{problem}
 
-\newpage
-
 \begin{problem}
 Даден е следният алгоритъм:
 \lstinputlisting{algorithms/fib-iter-linear.txt}
@@ -132,6 +222,30 @@
 Даден е следният: алгоритъм:
 \lstinputlisting{algorithms/mult.txt}
 
-Да се докаже, че при вход $n \times n$ матрици $A, B$ и $C$, функцията $\mathtt{Mult}(A, B, C)$ записва в $C$ произведението на $A$ и $B$.
+Да се докаже, че при вход $n \times n$ целочислени матрици $A, B$ и $C$, функцията $\mathtt{Mult}(A, B, C)$ записва в $C$ произведението на $A$ и $B$.
 Да се намери сложността му по време и памет.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/num-slopes.txt}
+
+Какво връща $\mathtt{NumSlopes}(A[1 \dots n])$?
+Отговорът да се обоснове.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/kadane.txt}
+
+Какво връща $\mathtt{Kadane}(A[1 \dots n])$?
+Отговорът да се обоснове.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/find-majority.txt}
+
+Да се докаже, че при подаден целочислен масив $A[1 \dots n]$, в който има елемент с повече от $\lfloor \frac{n}{2} \rfloor$ срещания,
+функцията $\mathtt{FindMajority}(A[1 \dots n])$ ще върне точно този елемент.
 \end{problem}

@@ -1,0 +1,11 @@
+foo($a \in \N$):
+    $x \leftarrow 6$
+    $y \leftarrow 1$
+    $z \leftarrow 0$
+
+    for $i \leftarrow 0$ to $a - 1$:
+        $z \leftarrow z + y$
+        $y \leftarrow y + x$
+        $x \leftarrow x + 6$
+
+    return $z$
