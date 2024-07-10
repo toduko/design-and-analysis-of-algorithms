@@ -1,0 +1,11 @@
+Exp($x, y \in \N$):
+    $res \leftarrow 1$
+
+    while $y > 0$:
+        if $y \equiv 1 \pmod 2$:
+            $res \leftarrow res \cdot x$
+
+        $y \leftarrow \frac{y}{2}$
+        $x \leftarrow x^2$
+
+    return $res$

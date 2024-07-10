@@ -1,0 +1,100 @@
+\documentclass[openany, 12pt]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, bulgarian]{babel}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
+\usepackage{array, tabularx, colortbl}
+\usepackage{tikz}
+\usepackage{venndiagram}
+\usepackage{amsthm, bm}
+\usepackage{relsize}
+\usepackage{amsmath,physics}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{theoremref}
+\usepackage{circuitikz}
+\usepackage{geometry}
+\usepackage{stmaryrd}
+\usepackage[symbol]{footmisc}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{systeme}
+\usepackage{forest}
+\useforestlibrary{linguistics}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\NP}{\textbf{NP}}
+\newcommand{\arr}{\operatorname{array}(\mathbb{Z})}
+
+
+\ExplSyntaxOn
+\NewDocumentCommand{\opair}{m}
+ {
+  \langle\mspace{2mu}
+  \clist_set:Nn \l_tmpa_clist { #1 }
+  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
+  \mspace{2mu}\rangle
+}
+\ExplSyntaxOff
+
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue
+}
+
+\lstset{basicstyle=\ttfamily,
+        breaklines=true,mathescape=true,numbers=left,
+        inputencoding=utf8,extendedchars=true,frame=single}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Дефиниция}
+\newtheorem*{warning}{\textcolor{red}{Внимание}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{invariant}{Инвариант}
+\newtheorem{claim}[theorem]{Твърдение}
+\newtheorem{axiom}[theorem]{Аксиома}
+\newtheorem{lemma}[theorem]{Лема}
+\newtheorem{corollary}[theorem]{Следствие}
+\theoremstyle{remark}
+\newtheorem*{remark}{Забележка}
+\newtheorem{problem}{Задача}[chapter]
+\newtheorem*{solution}{Решение}
+\theoremstyle{definition}
+
+\pagestyle{fancy}
+
+\lhead{\leftmark}
+\rhead{}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\begin{titlepage}
+    \title{Записки по ДАА}
+    \author{Тодор Дуков}
+    \date{}
+\end{titlepage}
+
+\maketitle
+
+\tableofcontents
+
+\include{asymptotic-analysis}
+\include{complexity-iterative}
+
+\end{document}

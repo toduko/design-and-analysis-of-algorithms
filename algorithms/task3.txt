@@ -1,0 +1,11 @@
+$F_3$($n \in \N$):
+    $s \leftarrow 0$
+
+    for $i \leftarrow 1$; $i \leq n^2$; inc($i$):
+        for $j \leftarrow 1$; $j \leq 2i$; inc($j$):
+            if $j \equiv 0 \pmod{2}$:
+                $s \leftarrow s + F_1(n)$
+            else:
+                $s \leftarrow s + F_2(n)$
+
+    return $s$

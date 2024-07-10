@@ -1,0 +1,7 @@
+Sort($A[1 \dots n] \in \arr$):
+    for $i \leftarrow 1$ to $n - 1$:
+        for $j \leftarrow 1$ to $n - i - 1$:
+            if $A[j] > A[j + 1]$:
+                $temp \leftarrow A[j]$
+                $A[j] \leftarrow A[j + 1]$
+                $A[j + 1] \leftarrow temp$

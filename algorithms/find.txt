@@ -1,0 +1,5 @@
+find($A[1 \dots n] \in \arr$; $v \in \Z$):
+    for $i \leftarrow 1$ to $n$:
+        if $A[i] = v$: return $i$
+
+    return $-1$

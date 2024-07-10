@@ -1,0 +1,7 @@
+$F_2$($n \in \N$):
+    $s \leftarrow 0$
+
+    for $i \leftarrow 1$; $i^2 \leq n$; $i \leftarrow i + 3$:
+        $s \leftarrow s + F_1(n)$
+
+    return $s$

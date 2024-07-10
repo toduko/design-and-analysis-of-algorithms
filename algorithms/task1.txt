@@ -1,0 +1,8 @@
+$F_1$($n \in \N$):
+    $s \leftarrow 0$
+
+    for $i \leftarrow 1$ to $n$:
+        for $j \leftarrow 1$; $j \leq i$; $j \leftarrow 2j$:
+            $s \leftarrow s + ij$
+
+    return $s$
