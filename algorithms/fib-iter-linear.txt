@@ -1,0 +1,13 @@
+$\mathfrak{F}$($n \in \N$):
+    if $n < 2$:
+        return $n$
+
+    $a \leftarrow 0$
+    $b \leftarrow 1$
+
+    for $i \leftarrow 1$ to $n - 1$:
+        $t \leftarrow a$
+        $a \leftarrow b$
+        $b \leftarrow t + b$
+
+    return $b$

@@ -1,0 +1,7 @@
+$\mathfrak{A}$($A[1 \dots n] \in \arr$):
+    for $i \leftarrow 1$ to $n - 1$:
+        for $j \leftarrow i + 1$ to $n$:
+            if $A[i] = A[j]$:
+                return $\T$
+
+    return $\F$

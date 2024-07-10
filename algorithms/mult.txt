@@ -1,0 +1,9 @@
+Mult($A, B, C \in (\Z)_{n \cross n}$)
+    for $i \leftarrow 1$ to $n$:
+        for $j \leftarrow 1$ to $n$:
+            $s \leftarrow 0$
+
+            for $k \leftarrow 1$ to $n$:
+                $s \leftarrow s + A[i][k] \cdot B[k][j]$
+
+            $C[i][j] \leftarrow s$

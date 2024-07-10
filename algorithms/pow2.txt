@@ -1,0 +1,7 @@
+Pow2($n \in \N$):
+    $r \leftarrow 1$
+
+    for $i \leftarrow 1$ to $n$:
+        $r \leftarrow 2r$
+
+    return $r$

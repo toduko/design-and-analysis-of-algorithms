@@ -1,0 +1,9 @@
+SelectionSort($A[1 \dots n] \in \arr$):
+    for $i \leftarrow 1$ to $n - 1$:
+        $m \leftarrow i$
+
+        for $j \leftarrow i + 1$ to $n$:
+            if $A[j] < A[m]$:
+                $m \leftarrow j$
+
+        swap($A[i]$, $A[m]$)
