@@ -1,0 +1,16 @@
+BinarySearch($A[1 \dots n] \in \arr$; $v \in \Z$)
+{
+    $l \leftarrow 1$
+    $r \leftarrow n$
+
+    while $l \leq r$:
+        $m \leftarrow \frac{l + r}{2}$
+
+        if $A[m] = v$:
+            return $m$
+        else if $A[m] < v$:
+            $l \leftarrow m + 1$
+        else:
+            $r \leftarrow m - 1$
+
+    return $-1$

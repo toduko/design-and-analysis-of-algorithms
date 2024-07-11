@@ -1,0 +1,9 @@
+Solve$\mathbf{2SUM}$($A[1 \dots n] \in \arr$; $t \in \Z$):
+    $(l, r) \leftarrow (1, n)$
+
+    while $l < r$:
+        if $A[l] + A[r] = t$: return $\T$
+        if $A[l] + A[r] < t$: $l \leftarrow l + 1$
+        if $A[l] + A[r] > t$: $r \leftarrow r - 1$
+
+    return $\F$
