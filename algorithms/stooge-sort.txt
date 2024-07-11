@@ -1,0 +1,13 @@
+SS($A[1 \dots n]$; $l, h \in \{ 1, \dots, n \}$):
+    if $l \geq h$:
+        return
+
+    if $A[l] > A[h]$:
+        swap($A[l]$, $A[h]$)
+
+    $t \leftarrow \frac{h - l + 1}{3}$
+
+    if $t \geq 1$:
+        SS($A[1 \dots n]$, $l$, $h - t$)
+        SS($A[1 \dots n]$, $l + t$, $h$)
+        SS($A[1 \dots n]$, $l$, $h - t$)

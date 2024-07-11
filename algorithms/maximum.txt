@@ -1,0 +1,5 @@
+$\mathfrak{M}$($A[1 \dots n] \in \arr$):
+    if $n = 0$:
+        return $-\infty$
+    else:
+        return $\max(A[n], \mathfrak{M}(A[1 \dots n - 1]))$

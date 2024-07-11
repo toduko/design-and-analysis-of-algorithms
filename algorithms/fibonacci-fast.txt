@@ -1,0 +1,18 @@
+FibMatrixExp($R \in (\N)_{2 \cross 2}$; $n \in \N$):
+    if $n = 0$:
+        $R \leftarrow E_{2 \cross 2}$
+
+    FibMatrixExp($R$, $\frac{n}{2}$)
+    $R \leftarrow R^2$
+
+    if $n \equiv 1 \pmod{2}$:
+        $R \leftarrow R \cdot \mathfrak{F}^*$
+
+F($n \in \N$):
+    if $n \leq 1$:
+        return $n$
+
+    init($R \in (\N)_{2 \cross 2}$)
+    FibMatrixExp($R$, $n - 1$);
+
+    return $R[1][1]$;

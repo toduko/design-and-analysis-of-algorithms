@@ -1,0 +1,176 @@
+\chapter{Коректност на рекурсивни алгоритми}
+
+\section{Примери за рекурсивни алгоритми}
+
+Нека разгледаме следният алгоритъм:
+\lstinputlisting{algorithms/maximum.txt}
+
+Очевидно при параметър целочислен масив $A[1 \dots n]$, функцията $\mathfrak{M}(A[1 \dots n])$ връща $\max A[1 \dots n]$.
+Ще докажем това с индукция по $n$:
+\begin{itemize}
+    \item В базата имаме, че $\mathfrak{M}(A[1 \dots n]) = -\infty = \max [] = \max A[1 \dots 0]$ където със $[]$ означаваме празният масив.
+    \item За индуктивната стъпка имаме, че:
+          \begin{align*}
+              \mathfrak{M}(A[1 \dots n + 1]) & = \max(A[n + 1], \mathfrak{M}(A[1 \dots n])) \stackrel{\text{(ИП)}}{=} \max(A[n + 1], \max A[1 \dots n]) \\
+                                             & = \max A[1 \dots n + 1].
+          \end{align*}
+\end{itemize}
+
+Тук управляващият параметър на рекурсията $\mathtt{n}$ винаги намалява с $\mathtt{1}$, докато не стигне $\mathtt{0}$, където ще приключи алгоритъмът.
+В по нататъчните разсъждения ще смятаме това за очевидно.
+
+Сложността на алгоритъма се описва със рекурентното уравнение:
+\[
+    T(n) = T(n - 1) + 1 \text{ // базата няма да я пишем}.
+\]
+
+Директно се вижда, че $T(n) = \sum\limits_{i = 0}^n 1 = n + 1 \asymp n$.
+
+Да видим един малко по-сложен пример -- за бързо степенуване:
+\lstinputlisting{algorithms/exp-rec.txt}
+
+С пълна индукция относно $y$ ще покажем, че $\mathcal{P}(x, y) = x^y$:
+\begin{itemize}
+    \item $\mathcal{P}(x, 0) = 1 = x^0 = 1$ // тук се уговаряме, че $0^0 = 1$.
+    \item $\mathcal{P}(x, 2y + 1) = x \cdot \mathcal{P}(x, y) \cdot \mathcal{P}(x, y) \stackrel{\text{(ИП)}}{=} x \cdot x^y \cdot x^y = x^{2y + 1}$.
+    \item $\mathcal{P}(x, 2y + 2) = \mathcal{P}(x, y + 1) \cdot \mathcal{P}(x, y + 1) \stackrel{\text{(ИП)}}{=} x^{y + 1} \cdot x^{y + 1} = x^{2y + 2}$.
+\end{itemize}
+
+Сложността на този алгоритъм може да се опише със следното рекурентно уравнение:
+\[
+    T(n) = T(\frac{n}{2}) + 1.
+\]
+От мастър-теоремата следва, че:
+\[
+    T(n) \asymp \log(n).
+\]
+
+\section{Трик за бързо пресмятане на членове на някои рекурентни редици}
+
+Нека вземем за пример редицата на Фибоначи:
+\begin{align*}
+     & F(0) = 0                   \\
+     & F(1) = 1                   \\
+     & F(n + 2) = F(n + 1) + F(n)
+\end{align*}
+Човек може да забележи, че:
+\[
+    \underbrace{\begin{pmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{pmatrix}}_{\mathfrak{F}^*}
+    \cdot
+    \begin{pmatrix}
+        F(n + 1) \\
+        F(n)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        F(n + 2) \\
+        F(n + 1)
+    \end{pmatrix}.
+\]
+След това с индукция лесно се показва, че:
+\[
+    (\mathfrak{F}^*)^n
+    \cdot
+    \begin{pmatrix}
+        F(1) \\
+        F(0)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        F(n + 1) \\
+        F(n)
+    \end{pmatrix}.
+\]
+
+За да сметнем $F(n)$, можем да направим бързо степенуване на матрицата, аналогична на тази с числата:
+\lstinputlisting{algorithms/fibonacci-fast.txt}
+
+Коректността и сложността на алгоритъма оставяме на читателя (напълно аналогично е на предния алгоритъм).
+
+В общия случай ще имаме рекурентно уравнение от вида:
+\[
+    T(n + k + 1) = a_k T(n + k) + \dots + a_1 T(n + 1) + a_0 T(n) \text{, където } a_0, \dots, a_k, k \text{ са константи}.
+\]
+Тогава имаме следната зависимост:
+\[
+    \begin{pmatrix}
+        a_k    & a_{k - 1} & a_{k - 2} & \dots  & a_2    & a_1    & a_0    \\
+        1      & 0         & 0         & \dots  & 0      & 0      & 0      \\
+        0      & 1         & 0         & \dots  & 0      & 0      & 0      \\
+        \vdots & \vdots    & \vdots    & \ddots & \vdots & \vdots & \vdots \\
+        0      & 0         & 0         & \dots  & 0      & 1      & 0      \\
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        T(n + k)     \\
+        T(n + k - 1) \\
+        T(n + k - 2) \\
+        \vdots       \\
+        T(n)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        T(n + k + 1) \\
+        T(n + k)     \\
+        T(n + k - 1) \\
+        \vdots       \\
+        T(n + 1)
+    \end{pmatrix}.
+\]
+Отново с индукция лесно се показва, че:
+\[
+    \begin{pmatrix}
+        a_k    & a_{k - 1} & a_{k - 2} & \dots  & a_2    & a_1    & a_0    \\
+        1      & 0         & 0         & \dots  & 0      & 0      & 0      \\
+        0      & 1         & 0         & \dots  & 0      & 0      & 0      \\
+        \vdots & \vdots    & \vdots    & \ddots & \vdots & \vdots & \vdots \\
+        0      & 0         & 0         & \dots  & 0      & 1      & 0      \\
+    \end{pmatrix}^n
+    \cdot
+    \begin{pmatrix}
+        T(k)     \\
+        T(k - 1) \\
+        T(k - 2) \\
+        \vdots   \\
+        T(0)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        T(n + k)     \\
+        T(n + k - 1) \\
+        T(n + k - 2) \\
+        \vdots       \\
+        T(n)
+    \end{pmatrix}.
+\]
+
+\section{Задачи}
+
+\begin{problem}
+Да се напише алгоритъм $\mathtt{Calculate}(F[0 \dots k], S[0 \dots k], n)$, който приема два целочислени масива $F[0 \dots k]$ и $S[0 \dots k]$, естествено число $n$, и връща числото $T(n)$, където:
+\begin{align*}
+     & T(0) = F[0]                                                                         \\
+     & T(1) = F[1]                                                                         \\
+     & \phantom{00000} \vdots                                                              \\
+     & T(k) = F[k]                                                                         \\
+     & T(n + k + 1) = S[k] \cdot T(n + k) + \dots + S[1] \cdot T(n + 1) + S[0] \cdot T(n).
+\end{align*}
+След това да се докаже неговата коректност, и да се изследва сложността му по време.
+\end{problem}
+
+\newpage
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/stooge-sort.txt}
+Какво прави $\mathtt{SS}(A[1 \dots n], 1, n)$ и каква е сложността на този алгоритъм по време и памет?
+Обосновете отговорите си.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм $\mathtt{IsDerivationTree}(G = \opair{\Sigma, V, S, R}, T)$, който приема безконтекстна граматика $G$, дърво $T$, и проверява дали $T$ е дърво на извод за $G$.
+След това да се докаже неговата коректност и да се изследва сложността му по време и памет.
+\end{problem}

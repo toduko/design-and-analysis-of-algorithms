@@ -1,0 +1,10 @@
+$\mathcal{P}$($x, y \in \N$):
+    if $y = 0$:
+        return $1$
+
+    $s \leftarrow \mathcal{P}(x, \frac{y}{2})$
+
+    if $y \equiv 1 \pmod{2}$:
+        return $s^2 x$
+    else:
+        return $s^2$
