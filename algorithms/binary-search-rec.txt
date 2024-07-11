@@ -1,0 +1,9 @@
+BinarySearch($A[1 \dots n] \in \arr$; $l, r \in \{1, \dots n\}$; $v \in \Z$):
+    if $l > r$:
+        return $-1$
+
+    $m \leftarrow \lfloor \frac{l + r}{2} \rfloor$
+
+    if $A[m] = v$: return $m$
+    if $A[m] < v$: return BinarySearch($A[1 \dots n]$, $m + 1$, $r$, $v$)
+    if $A[m] > v$: return BinarySearch($A[1 \dots n]$, $l$, $m - 1$, $v$)

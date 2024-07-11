@@ -1,0 +1,10 @@
+$\mathfrak{A}_1$($n \in \N$):
+    if $n < 2$:
+        return $n$
+
+    $a \leftarrow 0$
+
+    for $i \leftarrow 1$ to $n$:
+        $a \leftarrow a + i$
+
+    return $a + \mathfrak{A}_1(n - 1) + \mathfrak{A}_1(n - 1) + \mathfrak{A}_1(n - 2)$

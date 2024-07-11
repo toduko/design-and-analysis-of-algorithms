@@ -1,0 +1,13 @@
+$\mathfrak{A}_2$($n \in \N$):
+    if $n < 2$:
+        return $2$
+
+    $t \leftarrow 0$
+    $t \leftarrow t + \mathfrak{A}_2(\frac{n}{3})$
+
+    for $i \leftarrow 2$; $i < n$; $i \leftarrow 2i$:
+        $t \leftarrow t + 1$
+
+    $t \leftarrow t \cdot \mathfrak{A}_2(\frac{n}{3})$
+
+    return $t$
