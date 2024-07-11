@@ -1,0 +1,85 @@
+\section{Задачи}
+
+\begin{problem}
+Да се:
+\begin{itemize}
+    \item напише алгоритъм, който сумира числата в един масив;
+    \item докаже неговата коректност;
+    \item изследва сложността му по време и памет.
+\end{itemize}
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/anon-alg1.txt}
+
+\begin{enumerate}
+    \item Какво връща той? Отговорът да се обоснове.
+    \item Каква е неговата сложност по време и памет?
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/fib-iter-linear.txt}
+
+Да се докаже, че $\mathfrak{F}(n)$ връща $n$-тото число на Фибоначи.
+\end{problem}
+
+\begin{problem}
+Даден е следният: алгоритъм:
+\lstinputlisting{algorithms/mult.txt}
+
+Да се докаже, че при вход $n \times n$ целочислени матрици $A, B$ и $C$, функцията $\mathtt{Mult}(A, B, C)$ записва в $C$ произведението на $A$ и $B$.
+Да се намери сложността му по време и памет.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/num-slopes.txt}
+
+Какво връща $\mathtt{NumSlopes}(A[1 \dots n])$?
+Отговорът да се обоснове.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/kadane.txt}
+
+Какво връща $\mathtt{Kadane}(A[1 \dots n])$?
+Отговорът да се обоснове.
+\end{problem}
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/find-majority.txt}
+
+Да се докаже, че при подаден целочислен масив $A[1 \dots n]$, в който има елемент с повече от $\lfloor \frac{n}{2} \rfloor$ срещания,
+функцията $\mathtt{FindMajority}(A[1 \dots n])$ ще върне точно този елемент.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм $\mathtt{Calculate}(F[0 \dots k], S[0 \dots k], n)$, който приема два целочислени масива $F[0 \dots k]$ и $S[0 \dots k]$, естествено число $n$, и връща числото $T(n)$, където:
+\begin{align*}
+     & T(0) = F[0]                                                                         \\
+     & T(1) = F[1]                                                                         \\
+     & \phantom{00000} \vdots                                                              \\
+     & T(k) = F[k]                                                                         \\
+     & T(n + k + 1) = S[k] \cdot T(n + k) + \dots + S[1] \cdot T(n + 1) + S[0] \cdot T(n).
+\end{align*}
+След това да се докаже неговата коректност, и да се изследва сложността му по време.
+\end{problem}
+
+\begin{problem}
+Да се напише алгоритъм $\mathtt{IsDerivationTree}(G = \opair{\Sigma, V, S, R}, T)$, който приема безконтекстна граматика $G$, дърво $T$, и проверява дали $T$ е дърво на извод за $G$.
+След това да се докаже неговата коректност и да се изследва сложността му по време и памет.
+\end{problem}
+
+\newpage
+
+\begin{problem}
+Даден е следният алгоритъм:
+\lstinputlisting{algorithms/stooge-sort.txt}
+Какво прави $\mathtt{SS}(A[1 \dots n], 1, n)$ и каква е сложността на този алгоритъм по време и памет?
+Обосновете отговорите си.
+\end{problem}

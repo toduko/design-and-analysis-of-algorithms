@@ -1,5 +1,3 @@
-\chapter{Коректност на итеративни алгоритми}
-
 \section{Какво имаме предвид под коректност?}
 
 За целите на този курс един алгоритъм ще наричаме \textbf{коректен}, ако завършва при всякакви входни данни и връща правилен резултат при всякакви входни данни
@@ -189,63 +187,3 @@
     \textbf{Терминация.}
     При последното достигане на проверката за край на цикъла на ред $15$ променливата $i$ ще бъде $n + 1$, откъдето функцията ще върне точно $a = \max A[1 \dots (n + 1) - 1] = \max A[1 \dots n]$, с което сме готови.
 \end{proof}
-
-\section{Задачи}
-
-\begin{problem}
-Да се:
-\begin{itemize}
-    \item напише алгоритъм, който сумира числата в един масив;
-    \item докаже неговата коректност;
-    \item изследва сложността му по време и памет.
-\end{itemize}
-\end{problem}
-
-\begin{problem}
-Даден е следният алгоритъм:
-\lstinputlisting{algorithms/anon-alg1.txt}
-
-\begin{enumerate}
-    \item Какво връща той? Отговорът да се обоснове.
-    \item Каква е неговата сложност по време и памет?
-\end{enumerate}
-\end{problem}
-
-\begin{problem}
-Даден е следният алгоритъм:
-\lstinputlisting{algorithms/fib-iter-linear.txt}
-
-Да се докаже, че $\mathfrak{F}(n)$ връща $n$-тото число на Фибоначи.
-\end{problem}
-
-\begin{problem}
-Даден е следният: алгоритъм:
-\lstinputlisting{algorithms/mult.txt}
-
-Да се докаже, че при вход $n \times n$ целочислени матрици $A, B$ и $C$, функцията $\mathtt{Mult}(A, B, C)$ записва в $C$ произведението на $A$ и $B$.
-Да се намери сложността му по време и памет.
-\end{problem}
-
-\begin{problem}
-Даден е следният алгоритъм:
-\lstinputlisting{algorithms/num-slopes.txt}
-
-Какво връща $\mathtt{NumSlopes}(A[1 \dots n])$?
-Отговорът да се обоснове.
-\end{problem}
-
-\begin{problem}
-Даден е следният алгоритъм:
-\lstinputlisting{algorithms/kadane.txt}
-
-Какво връща $\mathtt{Kadane}(A[1 \dots n])$?
-Отговорът да се обоснове.
-\end{problem}
-
-\begin{problem}
-Даден е следният алгоритъм:
-\lstinputlisting{algorithms/find-majority.txt}
-
-Да се докаже, че при подаден целочислен масив $A[1 \dots n]$, в който има елемент с повече от $\lfloor \frac{n}{2} \rfloor$ срещания,
-функцията $\mathtt{FindMajority}(A[1 \dots n])$ ще върне точно този елемент.
-\end{problem}

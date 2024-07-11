@@ -1,0 +1,55 @@
+\section{Задачи}
+
+\begin{problem}
+Да се намери асимптотиката на средната сложност по време на алгоритъма за бързо сортиране т.е. на рекурентното уравнение:
+\[
+    T(n) = \frac{1}{n} \left(\sum\limits_{i = 1}^{n - 1}T(i) + T(n - i)\right) + n - 1.
+\]
+\end{problem}
+
+\begin{problem}
+Да се определи сложността по време за функцията:
+\lstinputlisting{algorithms/task1.txt}
+\end{problem}
+
+\begin{problem}
+Да се определи сложността по време за функцията:
+\lstinputlisting{algorithms/task2.txt}
+\end{problem}
+
+\begin{problem}
+Да се определи сложността по време за функцията:
+\lstinputlisting{algorithms/task3.txt}
+\end{problem}
+
+\begin{problem}
+Да се намери асимптотиката на следните рекурентни уравнения:
+\begin{align*}
+    T_1(n) & = 29T_1(\frac{n}{3}) + 2 \sum\limits_{i = 1}^n \frac{1}{i^2} & T_2(n) & = 29T_2(\frac{n}{3}) + 12n + \sqrt{n}                        \\
+    T_3(n) & = T_3(n - 1) + \frac{n}{(n + 1)(n - 1)}                      & T_4(n) & = 29T_4(\frac{n}{3}) + (\sum\limits_{i = 1}^n \frac{1}{i})^4 \\
+    T_5(n) & = 29T_5(\frac{n}{3}) + 2 \sum\limits_{i = 1}^n i^2           & T_6(n) & = 29T_6(\frac{n}{3}) + n^{\sqrt{n}} + (\sqrt{n})^n           \\
+    T_7(n) & = T_7(\sqrt{n}) + n                                          & T_8(n) & = 29T_8(\frac{n}{3}) + \binom{2n}{2}                         \\
+    T_9(n) & = 8T_9(n - 1) - T_9(n - 2) + 2n2^{2n} + 3n2^{3n}.            &        &
+\end{align*}
+\end{problem}
+
+\newpage
+
+\begin{problem}
+Да се намери сложността по време на следния алгоритъм:
+\lstinputlisting{algorithms/alg1.txt}
+Ще се промени ли нещо ако връщаме $a + 2 \mathfrak{A}_1(n - 1) + \mathfrak{A}_1(n - 2)$?
+\end{problem}
+
+\begin{problem}
+Да се намери сложността по време на следния алгоритъм:
+\lstinputlisting{algorithms/alg2.txt}
+\end{problem}
+
+\begin{problem}
+Да се намери асимптотиката на следните рекурентни уравнения:
+\begin{align*}
+    T_1(n) & = 2 \sqrt{2} T_1\left(\frac{n}{\sqrt{2}}\right) + n^3              & T_2(n) & = T_2(n - 1) + \frac{1 + n}{n^2}               \\
+    T_3(n) & = \sum\limits_{i = 0}^{n - 1}\left(T_3(i) + 2^{\frac{n}{2}}\right) & T_4(n) & = 5 T_4\left(\frac{n}{2}\right) + n^2 \log(n).
+\end{align*}
+\end{problem}
