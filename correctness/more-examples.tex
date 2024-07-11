@@ -72,19 +72,26 @@
 Най-сложното, което трябва да направим, е да пресметнем $B$ и $C$:
 \lstinputlisting{algorithms/find-missing-and-duplicate.txt}
 
-Накрая нека за пълнота с индукция по $n \in \mathbb{N}$ покажем, че:
-\[
-  \sum\limits_{i = 0}^n i = \frac{n(n + 1)}{2} \text{ и } \sum\limits_{i = 0}^n i^2 = \frac{n(n + 1)(2n + 1)}{6}
-\]
-\begin{itemize}
-  \item В базата имаме, че $\sum\limits_{i = 0}^0 i = 0 = \frac{0(0 + 1)}{2}$ и $\sum\limits_{i = 0}^0 i^2 = \frac{0(0 + 1)(2 \cdot 0 + 1)}{6}$.
-  \item В стъпката имаме, че:
-        \[
-          \sum\limits_{i = 0}^{n + 1} i = \sum\limits_{i = 0}^{n} i + (n + 1) \stackrel{\text{(ИП)}}{=} \frac{n(n + 1)}{2} + (n + 1) = \frac{n(n + 1)}{2} + \frac{2(n + 1)}{2} = \frac{(n + 1)(n + 2)}{2} \text{, и}
-        \]
-        \begin{align*}
-          \sum\limits_{i = 0}^{n + 1} i^2 & = \sum\limits_{i = 0}^{n} i^2 + (n + 1)^2 \stackrel{\text{(ИП)}}{=} \frac{n(n + 1)(2n + 1)}{6} + (n + 1)^2 \\
-                                          & = \frac{n(n + 1)(2n + 1)}{6} + \frac{6(n + 1)^2}{6}                                                        \\
-                                          & = \frac{(n + 1)(2n^2 + n + 6n + 6)}{6} = \frac{(n + 1)(n + 2)(2(n + 1) + 1)}{6}
-        \end{align*}
-\end{itemize}
+Нека за пълнота покажем следното:
+\begin{claim}
+  За всяко $n \in \N$ е изпълнено, че:
+  \[
+    \sum\limits_{i = 0}^n i = \frac{n(n + 1)}{2} \text{ и } \sum\limits_{i = 0}^n i^2 = \frac{n(n + 1)(2n + 1)}{6}
+  \]
+\end{claim}
+
+\begin{proof}
+  Правим индукция по $n$:
+  \begin{itemize}
+    \item В базата имаме, че $\sum\limits_{i = 0}^0 i = 0 = \frac{0(0 + 1)}{2}$ и $\sum\limits_{i = 0}^0 i^2 = \frac{0(0 + 1)(2 \cdot 0 + 1)}{6}$.
+    \item В стъпката имаме, че:
+          \[
+            \sum\limits_{i = 0}^{n + 1} i = \sum\limits_{i = 0}^{n} i + (n + 1) \stackrel{\text{(ИП)}}{=} \frac{n(n + 1)}{2} + (n + 1) = \frac{n(n + 1)}{2} + \frac{2(n + 1)}{2} = \frac{(n + 1)(n + 2)}{2} \text{, и}
+          \]
+          \begin{align*}
+            \sum\limits_{i = 0}^{n + 1} i^2 & = \sum\limits_{i = 0}^{n} i^2 + (n + 1)^2 \stackrel{\text{(ИП)}}{=} \frac{n(n + 1)(2n + 1)}{6} + (n + 1)^2 \\
+                                            & = \frac{n(n + 1)(2n + 1)}{6} + \frac{6(n + 1)^2}{6}                                                        \\
+                                            & = \frac{(n + 1)(2n^2 + n + 6n + 6)}{6} = \frac{(n + 1)(n + 2)(2(n + 1) + 1)}{6}.
+          \end{align*}
+  \end{itemize}
+\end{proof}
