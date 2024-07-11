@@ -1,0 +1,90 @@
+\section{Още примери}
+
+Искаме да напишем алгоритъм, който при подадена двойка от естествени числа $\opair{a, b}$, където $b \leq a$, да върне $\gcd(a, b)$ т.е. това число $d \in \mathbb{N}$, за което:
+\begin{itemize}
+  \item $d \mid a$ и $d \mid b$;
+  \item ако $d_1 \mid a$ и $d_1 \mid b$, то $d_1 \mid d$.
+\end{itemize}
+
+За целта ще покажем следното:
+\begin{claim}\thlabel{gcd-claim}
+  За всяко $a, b, q, r \in \mathbb{N}$, където $0 < b \leq a, \: a = bq + r$ и $r \in \{ 0, \dots, b - 1 \}$, е изпълнено, че:
+  \[
+    \gcd(a, b) = \gcd(b, r)
+  \]
+\end{claim}
+
+\begin{proof}
+  Първо имаме, че $\gcd(a, b) \mid a$ и $\gcd(a, b) \mid b$, откъдето понеже $a = bq + r$, имаме $\gcd(a, b) \mid r$.
+  Тогава $\gcd(a, b) \mid \gcd(b, r)$.
+  От друга страна $\gcd(b, r) \mid b$ и $\gcd(b, r) \mid r$, откъдето $\gcd(b, r) \mid bq + r = a$.
+  Така $\gcd(b, r) \mid \gcd(a, b)$.
+  Накрая можем да заключим $\gcd(a, b) = \gcd(b, r)$ от това, че $\gcd(a, b) \mid \gcd(b, r)$ и $\gcd(b, r) \mid \gcd(a, b)$.
+\end{proof}
+
+На базата на това наблюдение се получава следният алгоритъм (кръстен на Евклид):
+\lstinputlisting{algorithms/euclid.txt}
+
+Ще покажем с индукция относно $b$, че за всяко $a \geq b$, е изпълнено, че:
+\[
+  \mathtt{Euclid}(a, b) = \gcd(a, b)
+\]
+\begin{itemize}
+  \item В базовия случай имаме $\mathtt{Euclid}(a, 0) = a = \gcd(a, 0)$.
+  \item Нека $b > 0$ и $a = bq + r$ за някои $r \in \{ 0, \dots, b - 1 \}$ и $q$ и нека твърдението е изпълнено за всяко $b' < b$.
+        Тогава:
+        \[
+          \mathtt{Euclid}(a, b) = \mathtt{Euclid}(b, r) \stackrel{\text{(ИП)}}{=} \gcd(b, r) \stackrel{\text{\thref{gcd-claim}}}{=} \gcd(a, b).
+        \]
+\end{itemize}
+
+Алгоритъмът терминира, понеже управляващият параметър $\mathtt{b}$ винаги намаля, докато не стане $\mathtt{0}$.
+На пръсти ще покажем, че алгоритъмът има сложност по време и памет $O(\log(a))$.
+Нека видим, че ако $a > b$, то $\bmod(a, b) < \frac{a}{2}$:
+\begin{itemize}
+  \item[1 сл.] ако $b \leq \frac{a}{2}$, то $\bmod(a, b) < \frac{a}{2}$ и сме готови;
+  \item[2 сл.] ако пък $b > \frac{a}{2}$, то тогава $a - b < \frac{a}{2}$, откъдето $\bmod(a, b) = \bmod(a - b, b) = a - b < \frac{a}{2}$.
+\end{itemize}
+Тогава през на всеки две стъпки на алгоритъма от вход $\opair{a, b}$, отиваме до вход $\opair{\bmod(a, b), \bmod(b, \bmod(a, b))}$ и левият аргумент става поне два пъти по-малък.
+Тъй като левият аргумент е горна граница за десния, то той също ще намаля рязко.
+Дълбочината на дървото на рекурсията зависи само от броя на рекурсивните извиквания.
+Понеже те са логаритмично много и всяко едно от тях заема константна памет, сложността по памет е също $O(\log(a))$.
+
+Вторият пример е задача за числа, скрита в задача за масиви:
+
+Имаме един масив $A[1 \dots n]$, който съдържа всички числа от $1$ до $n$, с изключение на едно от тях, което е заместено с друго число от $1$ до $n$.
+Искаме да напишем колкото се може по-бърз алгоритъм, който при вход такъв масив $A[1 \dots n]$ връща наредената двойка $\opair{d, m}$ от дупликата и липсващото число.
+Оказва се, че тази задача може да се реши за линейно време и константна памет.
+За целта трябва да се забележат следните факти:
+\begin{itemize}
+  \item $d - m = \sum\limits_{i = 1}^n A[i] - \sum\limits_{i = 1}^n i = \sum\limits_{i = 1}^n A[i] - \frac{n(n + 1)}{2} =: B$;
+  \item $(d + m)(d - m) = d^2 - m^2 = \sum\limits_{i = 1}^n A[i]^2 - \sum\limits_{i = 1}^n i^2 = \sum\limits_{i = 1}^n A[i]^2 - \frac{n(n + 1)(2n + 1)}{6} =: C$.
+\end{itemize}
+
+От тях получаваме следната система от уравнения:
+\begin{center}
+  \begin{tabular}{|l}
+    $d - m = B$ \\
+    $d + m = \frac{C}{B}$
+  \end{tabular}
+\end{center}
+
+Най-сложното, което трябва да направим, е да пресметнем $B$ и $C$:
+\lstinputlisting{algorithms/find-missing-and-duplicate.txt}
+
+Накрая нека за пълнота с индукция по $n \in \mathbb{N}$ покажем, че:
+\[
+  \sum\limits_{i = 0}^n i = \frac{n(n + 1)}{2} \text{ и } \sum\limits_{i = 0}^n i^2 = \frac{n(n + 1)(2n + 1)}{6}
+\]
+\begin{itemize}
+  \item В базата имаме, че $\sum\limits_{i = 0}^0 i = 0 = \frac{0(0 + 1)}{2}$ и $\sum\limits_{i = 0}^0 i^2 = \frac{0(0 + 1)(2 \cdot 0 + 1)}{6}$.
+  \item В стъпката имаме, че:
+        \[
+          \sum\limits_{i = 0}^{n + 1} i = \sum\limits_{i = 0}^{n} i + (n + 1) \stackrel{\text{(ИП)}}{=} \frac{n(n + 1)}{2} + (n + 1) = \frac{n(n + 1)}{2} + \frac{2(n + 1)}{2} = \frac{(n + 1)(n + 2)}{2} \text{, и}
+        \]
+        \begin{align*}
+          \sum\limits_{i = 0}^{n + 1} i^2 & = \sum\limits_{i = 0}^{n} i^2 + (n + 1)^2 \stackrel{\text{(ИП)}}{=} \frac{n(n + 1)(2n + 1)}{6} + (n + 1)^2 \\
+                                          & = \frac{n(n + 1)(2n + 1)}{6} + \frac{6(n + 1)^2}{6}                                                        \\
+                                          & = \frac{(n + 1)(2n^2 + n + 6n + 6)}{6} = \frac{(n + 1)(n + 2)(2(n + 1) + 1)}{6}
+        \end{align*}
+\end{itemize}

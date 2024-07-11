@@ -1,0 +1,5 @@
+Euclid($a, b \in \N$ where $a \geq b$):
+    if $b = 0$:
+        return $a$
+
+    return Euclid($b$, $\bmod(a, b)$)

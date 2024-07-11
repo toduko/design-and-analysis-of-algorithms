@@ -1,0 +1,7 @@
+FindMissingAndDuplicate($A[1 \dots n]$):
+    $(B, C) \leftarrow (A[1] + \dots + A[n] - 1 - \dots - n, A[1]^2 + \dots A[n]^2 - 1^2 - \dots - n^2)$
+
+    $d \leftarrow (B + C / B)/2$
+    $m = d - B$
+
+    return $(d, m)$

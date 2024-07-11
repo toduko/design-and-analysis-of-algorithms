@@ -1,0 +1,10 @@
+$\mathfrak{U}$($A[1 \dots n] \in \arr$):
+    $(x, y) \leftarrow (\T, \T)$
+
+    for $i \leftarrow 1$ to $n - 1$:
+        if $x \: \& \: A[i] > A[i + 1]$:
+            $x \leftarrow \F$
+        else if $\neg x \: \& \: A[i] < A[i + 1]$:
+            $y \leftarrow \F$
+    
+    return $y$
