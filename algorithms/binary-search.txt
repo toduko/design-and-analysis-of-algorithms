@@ -1,5 +1,4 @@
-BinarySearch($A[1 \dots n] \in \arr$; $v \in \Z$)
-{
+BinarySearch($A[1 \dots n] \in \arr$; $v \in \Z$):
     $l \leftarrow 1$
     $r \leftarrow n$
 
