@@ -1,0 +1,18 @@
+HelperDFS($G = (V, E) \in \graph$; $u \in V$;
+          $vis \in \arrbool$; $r \in \dynarr(V)$):
+    $r$.push($u$)
+    $vis[u] \leftarrow \T$
+
+    for $v \in \adj_G(u)$:
+        if $\neg vis[v]$:
+            HelperDFS($G$, $v$, $vis$, $r$)
+
+DFS($G = (V, E) \in \graph$ where $V = \{ 1, \dots, n \}$):
+    $vis[1 \dots n] = [\F, \dots, \F]$
+    init empty $r \in \dynarr(V)$
+
+    for $i \leftarrow 1$ to $n$:
+        if $\neg vis[i]$:
+            HelperDFS($G$, $i$, $vis$, $r$)
+
+    return $r$

@@ -1,0 +1,24 @@
+HelperBFS($G = (V, E) \in \graph$; $s \in V$;
+          $vis \in \arrbool$; $r \in \dynarr(V)$):
+    init empty $q \in \queue(V)$
+    $q$.push($s$)
+    $vis[s] \leftarrow \T$
+
+    while $\neg q$.empty():
+        $u \leftarrow q$.pop()
+        $r$.push($u$)
+
+        for $v \in \adj_G(u)$:
+            if $\neg vis[v]$:
+                $vis[v] \leftarrow \T$
+                $q$.push($v$)
+
+BFS($G = (V, E) \in \graph$ where $V = \{ 1, \dots, n \}$):
+    $vis[1 \dots n] = [\F, \dots, \F]$
+    init empty $r \in \dynarr(V)$
+
+    for $i \leftarrow 1$ to $n$:
+        if $\neg vis[i]$:
+            HelperBFS($G$, $i$, $vis$, $r$)
+
+    return $r$
