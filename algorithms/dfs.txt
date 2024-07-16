@@ -8,7 +8,7 @@ HelperDFS($G = (V, E) \in \graph$; $u \in V$;
             HelperDFS($G$, $v$, $vis$, $r$)
 
 DFS($G = (V, E) \in \graph$ where $V = \{ 1, \dots, n \}$):
-    $vis[1 \dots n] = [\F, \dots, \F]$
+    $vis[1 \dots n] \leftarrow [\F, \dots, \F]$
     init empty $r \in \dynarr(V)$
 
     for $i \leftarrow 1$ to $n$:

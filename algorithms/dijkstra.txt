@@ -1,0 +1,17 @@
+Dijkstra($G = (V, E, w) \in \weightedgraph$ where $V = \{ 1, \dots, n \}$; $s \in V$):
+    init empty $q \in \pqueue_{\min}(\N \cross V, <_{lex(\N \cross V)})$
+    $d[1 \dots n] \leftarrow [-\infty, \dots, -\infty]$
+    $\pi[1 \dots n] \leftarrow [0, \dots, 0]$
+    $d[s] = 0$
+    $q$.push($(d[s], s)$);
+
+    while $\neg q$.empty():
+        $(d_u, u) \leftarrow q$.pop()
+
+        for $v \in \adj_G(u)$:
+            if $d_u + w(u, v) < d[v]$:
+                $\pi[v] \leftarrow u$
+                $d[v] \leftarrow d_u + w(u, v)$
+                $q$.push($(d[v], v)$)
+    
+    return $\pi[1 \dots n]$

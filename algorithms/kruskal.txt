@@ -1,0 +1,12 @@
+Kruskal($E[1 \dots k]$ where $E[i] = (u, v)$ for some $u, v \in \{ 1, \dots, n \}$):
+    Sort($E[1 \dots k]$, $\leq_G$)
+    init empty $t \in \dynarr(\operatorname{type\_of\_element}(E[1 \dots k]))$
+    init $dsu \in\;$UnionFind($n$)
+
+    for $i \leftarrow 1$ to $k$:
+        $(u, v) \leftarrow E[i]$
+
+        if $dsu$.Unify($u$, $v$):
+            $t$.push($(u, v)$)
+
+    return $t$

@@ -1,0 +1,29 @@
+struct UnionFind:
+    Constructor($n \in \N$):
+        init $l[1 \dots n] \in \dynarr(\{ 1, \dots, n \})$
+        init $s[1 \dots n] \in \dynarr(\N)$
+
+        for $i \leftarrow 1$ to $n$;
+            $l[i] \leftarrow i$
+            $s[i] \leftarrow 1$
+
+    GetLeader($x \in \{ 1, \dots, n \}$):
+        if $x \neq l[x]$:
+            $l[x] \leftarrow\;$GetLeader($l[x]$)
+
+        return $x$
+
+    Unify($x, y \in \{ 1, \dots, n \}$):
+        $x \leftarrow\;$GetLeader($x$)
+        $y \leftarrow\;$GetLeader($y$)
+
+        if $x = y$:
+            return $\F$
+
+        if $s[x] < s[y]$:
+            swap(x, y);
+
+        $l[y] \leftarrow x$
+        $s[x] \leftarrow s[x] + s[y]$
+
+        return $\T$
