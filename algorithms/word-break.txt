@@ -1,0 +1,15 @@
+WordBreak($\alpha \in \Sigma^*$; $D \subseteq_{fin} \Sigma^+$):
+    $WB[0 \dots |\alpha|] \leftarrow [\F, \dots \F]$
+    $WB[0] \leftarrow \T$
+
+    for $i \leftarrow 1$ to $|\alpha|$:
+        for $\beta \in D$:
+            if $i < |\beta|$:
+                continue
+
+            if $\left(i = |\beta| \lor WB[i - |\beta|]\right)$:
+                if $\alpha_{i - |\beta| + 1} \dots \alpha_i = \beta$:
+                    $WB[i] \leftarrow \T$
+                    break
+
+    return $WB[|\alpha|]$
