@@ -1,0 +1,11 @@
+$\mathcal{C}$($n \in \N$):
+    declare $C[0 \dots n] \in \arr$
+    $C[0] \leftarrow 1$
+
+    for $i \leftarrow 1$ to $n$:
+        $C[i] \leftarrow 0$
+
+        for $ \leftarrow 1$ to $i$:
+            $C[i] \leftarrow C[i] + C[j - 1] \cdot C[i - j]$
+
+    return $C[n]$

@@ -1,0 +1,17 @@
+LCS($S_1[1 \dots n], S_2[1 \dots m] \in \str$):
+    declare $DP[0 \dots n][0 \dots m] \in \operatorname{matrix}(\N)$ 
+
+    for $i \leftarrow 0$ to $n$:
+        $DP[i][0] \leftarrow 0$
+
+    for $j \leftarrow 0$ to $n$:
+        $DP[0][j] \leftarrow 0$
+
+    for $i \leftarrow 1$ to $n$:
+        for $j \leftarrow 1$ to $n$:
+            if $S_1[i - 1] = S_2[j - 1]$:
+                $DP[i][j] \leftarrow DP[i - 1][j - 1] + 1$
+            else:
+                $DP[i][j] \leftarrow \max(DP[i - 1][j], DP[i][j - 1])$
+
+    return $DP[n][m]$

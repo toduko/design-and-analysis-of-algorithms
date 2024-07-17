@@ -1,0 +1,11 @@
+BinomialFactorial($n, k \in \N$):
+    if $n < k$:
+        return $0$
+
+    declare $F[0 \dots n] \in \arr$
+    $F[0] \leftarrow 1$
+
+    for $i \leftarrow 1$ to $n$:
+        $F[i] \leftarrow i \cdot F[i - 1]$
+
+    return $F[n]/(F[k] \cdot F[n - k])$

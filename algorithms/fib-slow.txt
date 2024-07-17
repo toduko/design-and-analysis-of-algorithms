@@ -1,0 +1,5 @@
+$\mathfrak{Fib}$($n \in \N$):
+    if $n < 2$:
+        return $n$
+
+    return $\mathfrak{Fib}(n - 1) + \mathfrak{Fib}(n - 2)$

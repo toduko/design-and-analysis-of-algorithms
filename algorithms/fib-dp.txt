@@ -1,0 +1,14 @@
+$\mathfrak{FibDP}$($n \in \N$):
+    if $n < 2$:
+        return $n$
+
+    declare $F[0 \dots n] \in \arr$
+
+    $F[0] \leftarrow 0$
+    $F[1] \leftarrow 1$
+
+
+    for $i \leftarrow 2$ to $n$:
+        $F[i] \leftarrow F[i - 1] + F[i - 2]$
+
+    return $F[n]$

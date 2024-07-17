@@ -1,96 +1,24 @@
-\documentclass{article}
+\chapter{Динамично програмиране}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[english, bulgarian]{babel}
-\usepackage{pgfplots}
-\usepackage{amssymb}
-\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
-\usepackage{array, tabularx, colortbl}
-\usepackage{tikz}
-\usepackage{venndiagram}
-\usepackage{amsthm, bm}
-\usepackage{relsize}
-\usepackage{amsmath,physics}
-\usepackage{mathtools}
-\usepackage{subcaption}
-\usepackage{theoremref}
-\usepackage{circuitikz}
-\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
-\usepackage{stmaryrd}
-\usepackage[symbol]{footmisc}
-\usepackage{minted}
-\usepackage{enumitem}
-\usepackage{systeme}
-\usepackage{forest}
-\useforestlibrary{linguistics}
-
-\pgfplotsset{width=10cm,compat=1.9}
-
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\F}{\mathcal{F}}
-
-\ExplSyntaxOn
-\NewDocumentCommand{\opair}{m}
-{
-  \langle\mspace{2mu}
-  \clist_set:Nn \l_tmpa_clist { #1 }
-  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
-  \mspace{2mu}\rangle
-}
-\ExplSyntaxOff
-
-\hypersetup{
-  colorlinks=true,
-  linktoc=all,
-  linkcolor=blue
-}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Дефиниция}[section]
-\newtheorem*{warning}{\textcolor{red}{Внимание}}
-\theoremstyle{plain}
-\newtheorem*{theorem}{Теорема}
-\newtheorem*{invariant}{Инвариант}
-\newtheorem{claim}[definition]{Твърдение}
-\newtheorem{axiom}[definition]{Аксиома}
-\newtheorem{lemma}[definition]{Лема}
-\newtheorem{corollary}[definition]{Следствие}
-\theoremstyle{remark}
-\newtheorem*{remark}{Забележка}
-\newtheorem{problem}{Задача}
-\newtheorem*{solution}{Решение}
-\theoremstyle{definition}
-
-\setlength\parindent{0pt}
-
-\title{Динамично програмиране}
-\author{Тодор Дуков}
-\date{}
-
-\begin{document}
-\maketitle
-
-\section*{Какво е динамично програмиране?}
+\section{Какво е динамично програмиране?}
 
 Динамичното програмиране не е нито динамично, нито програмиране.
 Това е както оптимизационен метод, така и алгоритмична парадигма, която е разработена от Ричард Белман през 50-те години на миналия век.
 В този метод една зачача се разделя на подзадачи по рекурсивен начин.
 Той се използва в два случая:
 \begin{itemize}
-  \item при задачи, които имат припокриваща се подструктура т.е. задачата се разделя на подзадачи, които се срещат няколко пъти
-  \item при задачи, които имат оптимална подструктура т.е. оптимално решение може да се конструира от оптимални решения на подзадачите
+    \item при задачи, които имат припокриваща се подструктура т.е. задачата се разделя на подзадачи, които се срещат няколко пъти;
+    \item при задачи, които имат оптимална подструктура т.е. оптимално решение може да се конструира от оптимални решения на подзадачите.
 \end{itemize}
 
-\section*{Прости примери за динамично програмиране}
+\section{Прости примери за динамично програмиране}
 
 Да кажем, че искаме да сметнем $n$-тото число на Фибоначи.
 Един начин е да караме по рекурентното уравнение:
-\inputminted[linenos]{c++}{algorithms/fibonacci_recursive.cpp}
+\lstinputlisting{algorithms/fib-slow.txt}
 Проблемът е, че получаваме експоненциална сложност по време.
 Нещо, което можем да направим, е да пазим вече пресметнатите стойности, за да не се налага да ги пресмятаме пак:
-\inputminted[linenos]{c++}{algorithms/fibonacci_dp.cpp}
+\lstinputlisting{algorithms/fib-dp.txt}
 Това е пример за задача с припокриваща се подструктура, с решение по схемата \textbf{динамично програмиране}.
 Успяхме да решим задачата за линейно време.
 
@@ -98,37 +26,51 @@
 Да кажем, че имаме два низа $S_1[1 \dots n]$ и $S_2[1 \dots m]$ и искаме да пресметнем дължината на най-дългата обща подредица на $S_1$ и $S_2$.
 Лесно се вижда, че дължината $\operatorname{LCS}_{S_1, S_2}(i, j)$ на най-дългата подредица на $S_1[1 \dots i]$ и $S_2[1 \dots j]$ може да се пресметне рекурсивно така:
 \[
-  \operatorname{LCS}_{S_1, S_2}(i, j) = \begin{cases}
-    0                                                                                          & \text{, ако } i = 0 \text{ или } j = 0               \\
-    \operatorname{LCS}_{S_1, S_2}(i - 1, j - 1) + 1                                            & \text{, ако } i, j > 0 \text{ и } S_1[i] = S_2[j]    \\
-    \max\{ \operatorname{LCS}_{S_1, S_2}(i - 1, j), \operatorname{LCS}_{S_1, S_2}(i, j - 1) \} & \text{, ако } i, j > 0 \text{ и } S_1[i] \neq S_2[j]
-  \end{cases}
+    \operatorname{LCS}_{S_1, S_2}(i, j) = \begin{cases}
+        0                                                                                          & \text{, ако } i = 0 \text{ или } j = 0               \\
+        \operatorname{LCS}_{S_1, S_2}(i - 1, j - 1) + 1                                            & \text{, ако } i, j > 0 \text{ и } S_1[i] = S_2[j]    \\
+        \max\{ \operatorname{LCS}_{S_1, S_2}(i - 1, j), \operatorname{LCS}_{S_1, S_2}(i, j - 1) \} & \text{, ако } i, j > 0 \text{ и } S_1[i] \neq S_2[j]
+    \end{cases}
 \]
 Ако искаме да пресметнем това със обикновена рекурсия, отново ще получим експоненциална сложност по време.
+Отново можем да направим решение по схемата \textbf{динамично програмиране} със сложност $\Theta(n \cdot m)$.
+Единственото, което трябва да се направи, е да се измисли последователност за пресмятане на:
+\[
+    \begin{pmatrix}
+        \operatorname{LCS}_{S_1, S_2}(0, 0) & \dots  & \operatorname{LCS}_{S_1, S_2}(n, 0) \\
+        \vdots                              & \ddots & \vdots                              \\
+        \operatorname{LCS}_{S_1, S_2}(m, 0) & \dots  & \operatorname{LCS}_{S_1, S_2}(n, m)
+    \end{pmatrix}
+\]
+Важно е да искаме преди пресмятането на всяка клетка, необходимите за нея данни вече са готови.
+Ето как може да стане това:
+\lstinputlisting{algorithms/longest-common-subsequence.txt}
 
-\pagebreak
-
-Отново можем да направим решение по схемата \textbf{динамично програмиране} със сложност $\Theta(n \cdot m)$:
-\inputminted[linenos]{c++}{algorithms/longest_common_subsequence.cpp}
-
-\section*{Динамично програмиране за решаване на комбинаторни задачи}
+\section{Динамично програмиране за решаване на комбинаторни задачи}
 
 Вижда се, че тази техника е много удобна за бързо пресмятане на рекурентни зависимости.
 Едно приложение е в решаването на комбинаторни задачи.
 Да кажем, че искаме да пресметнем бързо ${n \choose k}$.
+
 Нека първо си припомним дефиницията:
 \[
-  {n \choose k} = \frac{n!}{k! (n - k)!}
+    {n \choose k} = \frac{n!}{k! (n - k)!}.
 \]
-Единственото нещо, което се иска да сметнем два факториела:
-\inputminted[linenos]{c++}{algorithms/binomial_factorial.cpp}
-Получихме сложност по време $\Theta(n)$, вместо $\Theta(n \cdot k \cdot (n - k))$.
-Обаче решението не е практично.
+
+Ние ще пресметнем ${n \choose k}$ точно по този начин.
+За тази цел единственото нещо, което се иска да сметнем трите стойности -- $n!, k!$ и $(n - k)!$.
+
+\newpage
+
+Това става елементарно по следния начин:
+\lstinputlisting{algorithms/binomial-factorial.txt}
+Получихме сложност по време $\Theta(n)$ т.е. имаме сравнително бързо решение.
+Обаче то не е практично.
 Проблемът е, че функцията $n!$ расте много бързо.
-Ние ще работим с големи стойности във $\mathtt{fact}$ масива, но крайният отговор ще е много по-малък от това.
+Ние ще работим с големи стойности във $F[0 \dots n]$, но крайният отговор ще е много по-малък от това.
 Ако искаме да си гарантираме възможно най-малки стойности по време на изчисление, трябва да го пресметнем за време $\Theta(n \cdot k)$ чрез формулата:
 \[
-  {n \choose k} = {n - 1 \choose k - 1} + {n - 1 \choose k}
+    {n \choose k} = {n - 1 \choose k - 1} + {n - 1 \choose k}.
 \]
 
 Нека сега се опитаме да пресметнем броят $T_n$\footnote{Тези числа се наричат числа на Каталан.} на двоични дървета за търсене с $n$ различни върха.
@@ -138,14 +80,17 @@
 Това е точно $T_{i - 1} \cdot T_{n - i}$.
 Така получаваме следното рекурентно уравнение:
 \begin{align*}
-  T_0 & = 1                                                                 \\
-  T_n & = \sum\limits_{i = 1}^n T_{i - 1} \cdot T_{n - i} \text{ за } n > 0
+    T_0 & = 1                                                                 \\
+    T_n & = \sum\limits_{i = 1}^n T_{i - 1} \cdot T_{n - i} \text{ за } n > 0
 \end{align*}
 Ясно е, че не искаме да пресмятаме $T_n$ чрез рекурсия -- това би било кошмарно бавно.
-Отново ще помним предишни изчисления, за да си забързаме алгоритъма до такъв със сложност $\Theta(n^2)$:
-\inputminted[linenos]{c++}{algorithms/catalan.cpp}
 
-\section*{Задачи}
+\newpage
+
+Отново ще помним предишни изчисления, за да си забързаме алгоритъма до такъв със сложност $\Theta(n^2)$:
+\lstinputlisting{algorithms/catalan.txt}
+
+\section{Задачи}
 
 \begin{problem}
 Да се напише колкото се може по-бърз алгоритъм, който пресмята ${n \choose k}$ с рекурентната формула от по-горе.
@@ -188,5 +133,3 @@
 Да се напише колкото се може по-бърз алгоритъм, който при подадено $n$ и число $k$ пресмята броят на начините да се стигне до $k$ чрез хвърляния на зар с $n$ страни, на които пише числата от $1$ до $n$.
 След това да се докаже неговата коректност, и да се изследва сложността му по време.
 \end{problem}
-
-\end{document}
