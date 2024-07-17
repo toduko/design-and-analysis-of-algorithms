@@ -1,83 +1,6 @@
-\documentclass{article}
+\chapter{Долни граници}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[english, bulgarian]{babel}
-\usepackage{pgfplots}
-\usepackage{amssymb}
-\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
-\usepackage{array, tabularx, colortbl}
-\usepackage{tikz}
-\usepackage{venndiagram}
-\usepackage{amsthm, bm}
-\usepackage{relsize}
-\usepackage{amsmath,physics}
-\usepackage{mathtools}
-\usepackage{subcaption}
-\usepackage{theoremref}
-\usepackage{circuitikz}
-\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
-\usepackage{stmaryrd}
-\usepackage[symbol]{footmisc}
-\usepackage{minted}
-\usepackage{enumitem}
-\usepackage{systeme}
-\usepackage{forest}
-\useforestlibrary{linguistics}
-
-\pgfplotsset{width=10cm,compat=1.9}
-
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\T}{\mathbb{T}}
-\newcommand{\F}{\mathbb{F}}
-\newcommand{\calT}{\mathcal{T}}
-
-\ExplSyntaxOn
-\NewDocumentCommand{\opair}{m}
-{
-  \langle\mspace{2mu}
-  \clist_set:Nn \l_tmpa_clist { #1 }
-  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
-  \mspace{2mu}\rangle
-}
-\ExplSyntaxOff
-
-\hypersetup{
-  colorlinks=true,
-  linktoc=all,
-  linkcolor=blue
-}
-
-\newcommand{\dc}[1]{\tikz \node[draw, circle, inner sep=0pt, minimum size=9mm]{#1};}
-\newcommand{\dt}[1]{\tikz \node[circle, inner sep=0pt, minimum size=9mm]{#1};}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Дефиниция}[section]
-\newtheorem*{warning}{\textcolor{red}{Внимание}}
-\theoremstyle{plain}
-\newtheorem*{theorem}{Теорема}
-\newtheorem*{invariant}{Инвариант}
-\newtheorem{claim}[definition]{Твърдение}
-\newtheorem{axiom}[definition]{Аксиома}
-\newtheorem{lemma}[definition]{Лема}
-\newtheorem{corollary}[definition]{Следствие}
-\theoremstyle{remark}
-\newtheorem*{remark}{Забележка}
-\newtheorem{problem}{Задача}
-\newtheorem*{solution}{Решение}
-\theoremstyle{definition}
-
-\setlength\parindent{0pt}
-
-\title{Долни граници}
-\author{Тодор Дуков}
-\date{}
-
-\begin{document}
-\maketitle
-
-\section*{Какво са долни граници?}
+\section{Какво са долни граници?}
 
 Дойде времето за по-депресиращите резултати в курса.
 До сега единственото, което правихме, беше да показваме, че за задача $\mathbf{X}$ може да се напише алгоритъм със времева сложност $O(f)$ или $\Theta(f)$ за някое $f \in \mathcal{F}$.
@@ -105,6 +28,8 @@
 \textbf{Изход:} Пермутация $A'[1 \dots n]$ на $A[1 \dots n]$, за която $A'[1] \leq A'[2] \leq \dots \leq A'[n]$.
 \vspace*{2mm}
 
+\newpage
+
 Ще казваме, че \textbf{алгоритъм} $\mathbf{AlgX}$ \textbf{решава задачата} $\mathbf{X}$, ако за всяко $x \in \operatorname{Dom}(\mathbf{X})$ е изпълнено $\opair{x, \mathbf{AlgX}(x)} \in \mathbf{X}$.
 Нека $\mathbf{X}$ е изчислителна задача и нека $f \in F$.
 Тогава:
@@ -114,7 +39,7 @@
           }.
     \item Казваме, че $\Omega(f)$ е \textbf{долна граница} за $\mathbf{X}$, ако всеки алгоритъм, който решава $\mathbf{X}$, работи за време (или брой операции от конкретен вид) $\Omega(f)$.
 \end{itemize}
-\section*{Техники за изследване на долни граници}
+\section{Техники за изследване на долни граници}
 
 Най-често се използват следните техники, които показват че задача $\mathbf{X}$ има долна граница за време $f$ (или $\Omega(f)$):
 \begin{itemize}
@@ -135,7 +60,7 @@
           В някакъв смисъл тази редукция казва, че задачата $\mathbf{X}$ е поне толкова трудна, колкото задачата $\mathbf{Y}$.
 \end{itemize}
 
-\section*{Техниките в действие}
+\section{Техниките в действие}
 
 Ще започнем със пример за аргументация с противник.
 Решаваме задачата за максимален елемент -- даден ни е като вход целочислен масив $A[1 \dots n]$ и искаме да получим като изход $\max \{ A[i] \mid 1 \leq i \leq n \}$.
@@ -186,19 +111,22 @@
 Оказва се, че тази задача се решава (на базата на директни сравнения) за време $\Omega(n \log(n))$.
 Ще покажем това като сведем задачата за сортиране на естествени числа към \textbf{Матрьошки}.
 Нека $\mathbf{AlgM}$ е алгоритъм, който решава задачата \textbf{Матрьошки} със сложност по време $f(n)$.
+
+\newpage
+
 Тогава следният алгоритъм очевидно сортира масива от естествени числа $A[1 \dots n]$:
 \begin{enumerate}
     \item Декларираме нов масив $T[1 \dots n]$.
     \item За всяко $1 \leq i \leq n$ инициализираме $T[i]$ със $(A[i], A[i], A[i])$.
     \item Извикваме $\mathbf{AlgM}(T[1 \dots n])$ с резултат $T'[1 \dots n]$.
     \item Декларираме нов масив $A'[1 \dots n]$
-    \item За всяко $1 \leq i \leq n$ инициализираме $A'[i]$ със $\operatorname{fst}(T'[i])$, където $\operatorname{fst}((a, b, c)) = a$.
+    \item За всяко $1 \leq i \leq n$ инициализираме $A'[i]$ със най-лявата компонента на $T'[i]$.
     \item Връщаме $A'[1 \dots n]$.
 \end{enumerate}
 Сложността на алгоритъма е $\Theta(n + f(n))$.
 Ако $f(n) = o(n \log(n))$, щяхме да получим сортиращ алгоритъм, който работи за време $o(n \log(n))$, което е абсурд.
 
-\section*{Задачи}
+\section{Задачи}
 
 \begin{problem}
 Един целочислен масив $A[1 \dots 2n]$ ще наричаме симетричен, ако за всяко $1 \leq i \leq n$ е изпълнено, че $A[i] = A[2n - i + 1]$.
@@ -221,6 +149,8 @@
 
 Да се докаже, че решението на задачата \textbf{SortPointsCounterClockwise} чрез сравнения изисква време $\Omega(n \log(n))$.
 \end{problem}
+
+\newpage
 
 \begin{problem}
 Разглеждаме задачата \textbf{SortPointsAngle}:
@@ -313,5 +243,3 @@
 
 Да се докаже, че решението на задачата \textbf{ClosestPair} чрез сравнения изисква време $\Omega(n \log(n))$.
 \end{problem}
-
-\end{document}
