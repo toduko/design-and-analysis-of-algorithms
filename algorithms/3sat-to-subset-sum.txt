@@ -1,6 +1,6 @@
-Реши$\mathbf{3SAT}$Чрез$\mathbf{SubsetSum}$($\varphi$ - формула в 3КНФ с променливи $x_1, \dots, x_m$ и дизюнкти $D_1, \dots, D_l$):
-    създай масив $A[1 \dots 2m + 2l]$
-    $t$ $\leftarrow$ $1$
+Реши$\mathbf{3SAT}$Чрез$\mathbf{SubsetSum}$($\varphi$ - формула в 3КНФ с променливи $x_1, \dots, x_m$
+                             и дизюнкти $D_1, \dots, D_l$):
+    създай масив $A[1 \dots 2m + 2l]$ и инициализирай $t$ с $1$
     
     за всяко $1 \leq i \leq m$:
         $A[t]$ $\leftarrow$ Построй$t$($m$, $l$, $x_i$, $D_1, \dots, D_l$)
@@ -13,5 +13,4 @@
         $t$ $\leftarrow$ $t + 2$
 
     $k$ $\leftarrow$ Построй$k$($m$, $l$)
-
     върни Реши$\mathbf{SubsetSum}$($A[1 \dots 2m + 2l]$, $k$)

@@ -1,85 +1,4 @@
-\documentclass{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[english, bulgarian]{babel}
-\usepackage{pgfplots}
-\usepackage{amssymb}
-\usepackage{hyperref, fancyhdr, lastpage, fancyvrb, tcolorbox, titlesec}
-\usepackage{array, tabularx, colortbl}
-\usepackage{tikz}
-\usepackage{venndiagram}
-\usepackage{amsthm, bm}
-\usepackage{relsize}
-\usepackage{amsmath,physics}
-\usepackage{mathtools}
-\usepackage{subcaption}
-\usepackage{theoremref}
-\usepackage{circuitikz}
-\usepackage[a4paper, left=0.50in, right=0.50in, top=0.5in, bottom=1.0in]{geometry}
-\usepackage{stmaryrd}
-\usepackage[symbol]{footmisc}
-\usepackage{minted}
-\usepackage{enumitem}
-\usepackage{systeme}
-\usepackage{forest}
-\useforestlibrary{linguistics}
-
-\pgfplotsset{width=10cm,compat=1.9}
-
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\T}{\mathbb{T}}
-\newcommand{\F}{\mathbb{F}}
-\newcommand{\calT}{\mathcal{T}}
-\newcommand{\NP}{\textbf{NP}}
-
-
-\ExplSyntaxOn
-\NewDocumentCommand{\opair}{m}
-{
-  \langle\mspace{2mu}
-  \clist_set:Nn \l_tmpa_clist { #1 }
-  \clist_use:Nn \l_tmpa_clist {,\mspace{3mu plus 1mu minus 1mu}\allowbreak}
-  \mspace{2mu}\rangle
-}
-\ExplSyntaxOff
-
-\hypersetup{
-  colorlinks=true,
-  linktoc=all,
-  linkcolor=blue
-}
-
-\newcommand{\dc}[1]{\tikz \node[draw, circle, inner sep=0pt, minimum size=9mm]{#1};}
-\newcommand{\dt}[1]{\tikz \node[circle, inner sep=0pt, minimum size=9mm]{#1};}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Дефиниция}[section]
-\newtheorem*{warning}{\textcolor{red}{Внимание}}
-\theoremstyle{plain}
-\newtheorem*{theorem}{Теорема}
-\newtheorem*{invariant}{Инвариант}
-\newtheorem{claim}[definition]{Твърдение}
-\newtheorem{axiom}[definition]{Аксиома}
-\newtheorem{lemma}[definition]{Лема}
-\newtheorem{corollary}[definition]{Следствие}
-\theoremstyle{remark}
-\newtheorem*{remark}{Забележка}
-\newtheorem{problem}{Задача}
-\newtheorem*{solution}{Решение}
-\theoremstyle{definition}
-
-\setlength\parindent{0pt}
-
-\title{\NP-трудност и \NP-пълнота}
-\author{Тодор Дуков}
-\date{}
-
-\begin{document}
-\maketitle
-
-\section*{$\mathbf{P = NP}$ или $\mathbf{P \neq NP}$? Колко пък да е трудно?}
+\section{$\mathbf{P = NP}$ или $\mathbf{P \neq NP}$? Колко пък да е трудно?}
 
 За съжаление все още няма отговор на този въпрос -- не се знае дали $\mathbf{P = NP}$  или $\mathbf{P \neq NP}$.
 Най-доброто, което имаме до момента, са няколко задачи в класа \NP, които са изключително важни.
@@ -101,13 +20,13 @@
 \end{itemize}
 Всички \NP-пълни задачи са еквивалентни в смисъл, че всяка може да се сведе до другата за полиномиално време.
 Така имайки полиномиално алгоритъм, който решава някоя \NP-пълна задача \textbf{X}, то тогава можем да решим всяка задача \textbf{Y} от \NP{} за полиномиално време:
-\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/solve_in_ptime.txt}
+\VerbatimInput[numbersep = 3pt, frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/solve-in-ptime.txt}
 
 Обаче ние нито имаме такъв алгоритъм, нито не знаем, че такъв алгоритъм няма.
 Това са задачи, които хем не можем да решим ефективно, хем не можем да покажем, че такова решение няма.
 Най-доброто, което можем да направим, е да покажем, задачата е еквивалентна по трудност на други задачи, за които други много умни хора не са се сетили.
 
-\section*{\textit{``Основната''} \NP-пълнa задача}
+\section{\textit{``Основната''} \NP-пълнa задача}
 
 По-принцип е трудно директно да се показва \NP-пълнота, ако се кара по дефиницията.
 Това, което обикновено се прави, е се показва по дефиниция, че една задача е \NP-пълна (все трябва да започнем от някъде), след което се правят полиномиални редукции от задачи, за които знаем, че са \NP-пълни, към задачите, която искаме да покажем, че са \NP-пълни.
@@ -141,12 +60,15 @@
     \item дизюнктите с три литерала не се променят;
     \item дизюнктите с $n > 4$ литерала се заменят с $n - 2$ дизюнкта с три литерала.
 \end{itemize}
+
+\newpage
+
 По-съмнителното е търсенето на нови променливи, но и това няма как да е прекалено бавно, защото броят на променливите, които участват в една формула е по-малък или равен на дължината ѝ.
 Тъй като ние ще получим формула с полиномиална на $\varphi$ дължина, в нея ще участват най-много полиномиално на $\varphi$ променливи.
 Това означава, че ако всеки път търсим неизползваната променлива с най-малък индекс, няма да търсим прекалено дълго.
 С това получаваме, че \textbf{3SAT} е \NP-трудна задача, и понеже сме показвали че е в класа \NP, то тя е и \NP-пълна.
 
-\section*{Класически \NP-пълни задачи}
+\section{Класически \NP-пълни задачи}
 
 Ще покажем няколко класически примери за \NP-пълни задачи.
 Тъй като за тях сме доказвали, че са в класа \NP, ни остава само да покажем, че са \NP-трудни.
@@ -166,10 +88,13 @@
     \overline{E} = \{ (u, v) \mid u, v \in V \: \& \: (u, v) \notin E \}.
 \]
 Този граф очевидно се строи за време $\Theta(|V|^2)$.
+
 Оказва се, че за всяко $X \subseteq V$ е изпълнено, че:
 \begin{center}
     $X$ е клика в $G$ $\iff$ $V \setminus X$ е върхово покритие в $\overline{G}$.
 \end{center}
+
+\newpage
 
 $(\Rightarrow)$
 Нека $X$ е клика в $G$.
@@ -183,10 +108,8 @@ $(\Leftarrow)$
 Но тогава $(u, v) \in \overline{E}$, откъдето $V \setminus X$ не е върхово покритие в $\overline{G}$.
 
 Псевдокода на редукцията би изглеждал така:
-\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/clique_to_vertex_cover.txt}
+\VerbatimInput[numbersep = 3pt, frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3}]{algorithms/clique-to-vertex-cover.txt}
 С това показахме, че \textbf{VertexCover} е \NP-трудна задача, откъдето е и \NP-пълна.
-
-\pagebreak
 
 Сега ще покажем, че $\mathbf{3SAT} \leq_p \mathbf{SubsetSum}$.
 Нека е дадена формула $\varphi$ в 3КНФ, в която участват променливите $x_1, \dots, x_m$ и дизюнктите $D_1, \dots, D_l$.
@@ -197,8 +120,8 @@ $(\Leftarrow)$
 За всяка променлива $x_i$ строим числа $t_i, f_i$ със $m + l$ цифри по следния начин:
 \begin{itemize}
     \item $i$-тата цифра на $t_i$ и $f_i$ e $1$;
-    \item за $m + 1 \leq j \leq m + l$, $j$-тата цифра на $t_i$ е $1$ ако $x_i$ участва в дизюнкта $D_{j - m}$;
-    \item за $m + 1 \leq j \leq m + l$, $j$-тата цифра на $f_i$ е $1$ ако $\overline{x_i}$ участва в дизюнкта $D_{j - m}$;
+    \item за $m + 1 \leq j \leq m + l$, $j$-тата цифра на $t_i$ е $1$ ако $x_i$ участва в $D_{j - m}$;
+    \item за $m + 1 \leq j \leq m + l$, $j$-тата цифра на $f_i$ е $1$ ако $\overline{x_i}$ участва в $D_{j - m}$;
     \item всички други цифри на $t_i$ и $f_i$ са $0$.
 \end{itemize}
 Очевидно всички тези числа могат да се построят за полиномиално на дължината на $\varphi$ време.
@@ -208,13 +131,11 @@ $(\Leftarrow)$
     \item $(m + j)$-тата цифра на $h_j$ и $g_j$ е $1$;
     \item всички други цифри на $h_j$ и $g_j$ са $0$.
 \end{itemize}
+
+\newpage
 Очевидно всички тези числа могат да се построят за полиномиално на дължината на $\varphi$ време.
 
-Накрая $k$ е следното число с $m + l$ цифри:
-\begin{itemize}
-    \item първите $m$ цифри на $k$ са $1$;
-    \item останалите $l$ цифри на $k$ са $3$.
-\end{itemize}
+Накрая нека $k = \underbrace{1 \dots 1}_{m \text{ пъти}} \underbrace{3 \dots 3}_{l \text{ пъти}}$.
 Това число също се строи за полиномиално на дължината на $\varphi$ време.
 
 Накрая получаваме вход $[t_1, f_1, \dots t_m, f_m, h_1, g_1, \dots, h_l, g_l]$ и $k$ за \textbf{SubsetSum}.
@@ -233,21 +154,5 @@ $(\Leftarrow)$
 Следователно всички дизюнкти във $\varphi$ са верни при оценка $v$, откъдето $\varphi$ е изпълнима.
 
 Псевдокода на редукцията би изглеждал така:
-\VerbatimInput[frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3\catcode`_=8}]{algorithms/3sat_to_subset_sum.txt}
+\VerbatimInput[numbersep = 3pt, frame=single, numbers=left,commandchars=\\\{\},codes={\catcode`$=3\catcode`_=8}]{algorithms/3sat-to-subset-sum.txt}
 С това показахме, че \textbf{SubsetSum} е \NP-трудна задача, откъдето е и \NP-пълна.
-
-\section*{Задачи}
-
-\begin{problem}
-Да се докаже, че \textbf{Anticlique} е \NP-пълна задача.
-\end{problem}
-
-\begin{problem}
-Да се докаже, че \textbf{2Partition} е \NP-пълна задача.
-\end{problem}
-
-\begin{problem}
-Да се докаже, че \textbf{DominatingSet} е \NP-пълна задача.
-\end{problem}
-
-\end{document}

@@ -1,4 +1,4 @@
-Реши$\mathbf{Clique}$Чрез$\mathbf{VertexCover}$($G = (V, E)$ граф, $k$ - естествено число):
+Реши$\mathbf{Clique}$Чрез$\mathbf{VertexCover}$($G = (V, E)$ граф; $k$ - естествено число):
     инициализирай граф $\overline{G} = (V, \varnothing)$
 
     за всеки връх $u \in V$:

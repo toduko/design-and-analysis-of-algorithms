@@ -48,6 +48,10 @@
 \newcommand{\dc}[1]{\tikz \node[draw, circle, inner sep=0pt, minimum size=9mm]{#1};}
 \newcommand{\dt}[1]{\tikz \node[circle, inner sep=0pt, minimum size=9mm]{#1};}
 
+\renewcommand{\theFancyVerbLine}{
+ $\arabic{FancyVerbLine}$
+}
+
 \ExplSyntaxOn
 \NewDocumentCommand{\opair}{m}
  {
@@ -110,5 +114,6 @@
 \include{graphs/index}
 \include{dynamic-programming}
 \include{lower-bounds}
+\include{intractability/index}
 
 \end{document}
