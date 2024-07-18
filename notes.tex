@@ -68,12 +68,22 @@
     linkcolor=blue
 }
 
-\lstset{basicstyle=\ttfamily,
-        breaklines=true,mathescape=true,numbers=left,
-        inputencoding=utf8,extendedchars=true,frame=single}
+\lstdefinelanguage{custom}{
+    morekeywords={for, if, else, return, break, continue, while, to, init, empty}
+}
+
+\lstset{
+    basicstyle=\ttfamily,
+    breaklines=true,mathescape=true,numbers=left,
+    inputencoding=utf8,extendedchars=true,frame=single,
+    keywordstyle=\bf,
+    language=custom
+}
 
 \theoremstyle{definition}
 \newtheorem*{definition}{Дефиниция}
+\newtheorem{problem}{Задача}[chapter]
+\newtheorem*{solution}{Решение}
 \newtheorem*{warning}{\textcolor{red}{Внимание}}
 \theoremstyle{plain}
 \newtheorem{theorem}{Теорема}[section]
@@ -82,8 +92,6 @@
 \newtheorem{axiom}[theorem]{Аксиома}
 \newtheorem{lemma}[theorem]{Лема}
 \newtheorem{corollary}[theorem]{Следствие}
-\newtheorem{problem}{Задача}[chapter]
-\newtheorem*{solution}{Решение}
 \theoremstyle{remark}
 \newtheorem*{remark}{Забележка}
 
