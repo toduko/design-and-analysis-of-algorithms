@@ -1,4 +1,4 @@
-foo($a \in \N$):
+Foo($a \in \N$):
     $x \leftarrow 6$
     $y \leftarrow 1$
     $z \leftarrow 0$
