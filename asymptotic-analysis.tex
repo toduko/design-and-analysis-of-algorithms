@@ -59,7 +59,7 @@
   За всяка функция $f \in \calF$ дефинираме:
   \begin{align*}
     \Theta(f) = \{ g \in \calF \: \mid & (\exists c_1 > 0)(\exists c_2 > 0)                                                        \\
-                                       & (\exists n_0 \in \N)(\forall n \geq n_0)(c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n))\}.
+                                       & (\exists n_0 \geq 0)(\forall n \geq n_0)(c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n))\}.
   \end{align*}
 
 \end{definition}
@@ -93,7 +93,7 @@
 \begin{definition}
   За всяка функция $f \in \calF$ дефинираме:
   \begin{align*}
-    O(f) = \{ g \in \calF \: \mid (\exists c > 0)(\exists n_0 \in \N)(\forall n \geq n_0)(g(n) \leq c \cdot f(n))\}.
+    O(f) = \{ g \in \calF \: \mid (\exists c > 0)(\exists n_0 \geq 0)(\forall n \geq n_0)(g(n) \leq c \cdot f(n))\}.
   \end{align*}
 \end{definition}
 Може да тълкуваме $O(f)$ като:
@@ -122,7 +122,7 @@
 \begin{definition}
   За всяка функция $f \in \calF$ дефинираме:
   \begin{align*}
-    o(f) = \{ g \in \calF \: \mid (\forall c > 0)(\exists n_0 \in \N)(\forall n \geq n_0)(g(n) < c \cdot f(n))\}.
+    o(f) = \{ g \in \calF \: \mid (\forall c > 0)(\exists n_0 \geq 0)(\forall n \geq n_0)(g(n) < c \cdot f(n))\}.
   \end{align*}
 \end{definition}
 Може да тълкуваме $o(f)$ като:
@@ -139,7 +139,7 @@
 \begin{definition}
   За всяка функция $f \in \calF$ дефинираме:
   \begin{align*}
-    \Omega(f) = \{ g \in \calF \: \mid (\exists c > 0)(\exists n_0 \in \N)(\forall n \geq n_0)(c \cdot f(n) \leq g(n))\}.
+    \Omega(f) = \{ g \in \calF \: \mid (\exists c > 0)(\exists n_0 \geq 0)(\forall n \geq n_0)(c \cdot f(n) \leq g(n))\}.
   \end{align*}
 \end{definition}
 Може да тълкуваме $\Omega(f)$ като:
@@ -154,7 +154,7 @@
 \begin{definition}
   За всяка функция $f \in \calF$ дефинираме:
   \begin{align*}
-    \omega(f) = \{ g \in \calF \: \mid (\forall c > 0)(\exists n_0 \in \N)(\forall n \geq n_0)(c \cdot f(n) < g(n))\}.
+    \omega(f) = \{ g \in \calF \: \mid (\forall c > 0)(\exists n_0 \geq 0)(\forall n \geq n_0)(c \cdot f(n) < g(n))\}.
   \end{align*}
 \end{definition}
 Може да тълкуваме $\omega(f)$ като:
@@ -233,8 +233,8 @@
 \begin{problem}
 Да се подредят по асимптотично нарастване следните функции:
 \begin{align*}
-  f_1(n) & = n^2                                       & f_2(n)    & = \sqrt{n}       & f_3(n)    & = \log^2(n)        & f_4(n)    & = \sqrt{\log(n)!}                         \\
-  f_5(n) & = \sum\limits_{k = 2}^{\log(n)} \frac{1}{k} & f_6(n)    & = \log(\log(n))  & f_7(n)    & = 2^{2^{\sqrt{n}}} & f_8(n)    & = \binom{\binom{n}{3}}{2}                 \\
+  f_1(n) & = n^2                                       & f_2(n)    & = \sqrt{n}       & f_3(n)    & = \log^2(n)        & f_4(n)    & = \sqrt{\log(n)!}                          \\
+  f_5(n) & = \sum\limits_{k = 2}^{\log(n)} \frac{1}{k} & f_6(n)    & = \log(\log(n))  & f_7(n)    & = 2^{2^{\sqrt{n}}} & f_8(n)    & = \binom{\binom{n}{3}}{2}                  \\
   f_9(n) & =2^{n^2}                                    & f_{10}(n) & = 3^{n \sqrt{n}} & f_{11}(n) & =2^{\binom{n}{2}}  & f_{12}(n) & = \sum\limits_{k = 1}^{n^2} \frac{1}{2^k}.
 \end{align*}
 \end{problem}
