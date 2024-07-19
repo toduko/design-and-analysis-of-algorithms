@@ -203,15 +203,45 @@
   \item $O(f) \cap \Omega(f) = \Theta(f)$ за всяко $f \in \calF$.
   \item $o(f) \cap \omega(f) = O(f) \cap \omega(f) = o(f) \cap \Omega(f) = \varnothing$ за всяко $f \in \calF$.
   \item $f \prec g \iff g \succ f$ и $f \preceq g \iff g \succeq f$ за всяко $f, g \in \calF$.
-  \item ако $f \prec g$, то $c^f \prec c^g$ за всяко $f, g \in \calF$ и $c > 1$.
-  \item ако $\log_c(f) \prec \log_c(g)$, то $f \prec g$ за всяко $f, g \in \calF$ и $c > 1$.
-  \item ако $c^f \asymp c^g$, то $f \asymp g$ за всяко $f, g \in \calF$ и $c > 1$.
-  \item ако $f \asymp g$, то $\log_c(f) \asymp \log_c(g)$ за всяко $f, g \in \calF$ и $c > 1$.
-  \item тъй като $\log_a(n) = \frac{\log_b(n)}{\log_b(a)}$, то $\log_a(n) \asymp \log_b(n)$ -- вече ще пишем само $\log(n)$ като ще имаме предвид $\log_2(n)$.
-  \item $n! \asymp \sqrt{n} \frac{n^n}{e^n}$ - апроксимация на Стирлинг.
+  \item Нека $f, g \in \calF$ са растящи и неограничени и $c > 1$. Тогава:
+        \begin{itemize}
+          \item ако $f \prec g$, то $c^f \prec c^g$;
+          \item ако $\log_c(f) \prec \log_c(g)$, то $f \prec g$;
+          \item ако $c^f \asymp c^g$, то $f \asymp g$;
+          \item ако $f \asymp g$, то $\log_c(f) \asymp \log_c(g)$.
+        \end{itemize}
+  \item Тъй като $\log_a(n) = \frac{\log_b(n)}{\log_b(a)}$, то $\log_a(n) \asymp \log_b(n)$ -- вече ще пишем само $\log(n)$, като ще имаме предвид $\log_2(n)$.
+  \item $n! \asymp \sqrt{n} \frac{n^n}{e^n}$ -- апроксимация на Стирлинг.
   \item $\log(n!) \asymp n \log(n)$.
   \item $\log(n) \prec n^k \prec 2^n \prec n! \prec n^n \prec 2^{n^2}$ за всяко $k \geq 1$.
 \end{itemize}
+
+\newpage
+
+\begin{claim}
+  Нека $f \in \calF$ е неограничено растяща и диференцируема, $a > 1$ и $k, l > 0$.
+  Тогава $(\log_a f(n))^{k} \prec f(n)^{l}$.
+\end{claim}
+
+\begin{proof}
+  Първо правим следната преработка:
+  \[
+    \frac{f(n)^{l}}{(\log_a f(n))^k} = \frac{f(n)^{l \cdot \frac{k}{k}}}{(\log_a f(n))^k} \stackrel{t = \frac{l}{k}}{=} \frac{f(n)^{tk}}{(\log_a f(n))^k} = \left( \frac{f(n)^t}{\log_a f(n)} \right)^k.
+  \]
+  След това забелязваме, че:
+  \begin{align*}
+      & \lim\limits_{n \to \infty} \frac{f(n)^t}{\log_a f(n)}                             &                                                                 \\
+    = & \lim\limits_{n \to \infty} \frac{(f(n)^t)'}{(\log_a f(n))'}                       & \text{// правило на L'Hôpital}                                  \\
+    = & \lim\limits_{n \to \infty} \frac{t f(n)^{t - 1} f'(n)}{\frac{f'(n)}{\ln(a) f(n)}} &                                                                 \\
+    = & \lim\limits_{n \to \infty} t \ln(a) f(n)^t                                        & \text{// } f(n) \text{ е неограничено растяща и } t, \ln(a) > 0 \\
+    = & \;\infty.                                                                         &
+  \end{align*}
+  Тъй като $\lim\limits_{n \to \infty} \frac{f(n)^t}{\log_a f(n)} = \infty$ и $k > 0$, то тогава:
+  \[
+    \lim\limits_{n \to \infty} \frac{f(n)^{l}}{(\log_a f(n))^k} = \lim\limits_{n \to \infty} \left( \frac{f(n)^t}{\log_a f(n)} \right)^k = \infty.
+  \]
+  Така $(\log_a f(n))^{k} \prec f(n)^{l}$.
+\end{proof}
 
 \section{Задачи}
 
