@@ -211,12 +211,14 @@
           \item ако $f \asymp g$, то $\log_c(f) \asymp \log_c(g)$.
         \end{itemize}
   \item Тъй като $\log_a(n) = \frac{\log_b(n)}{\log_b(a)}$, то $\log_a(n) \asymp \log_b(n)$ -- вече ще пишем само $\log(n)$, като ще имаме предвид $\log_2(n)$.
-  \item $n! \asymp \sqrt{n} \frac{n^n}{e^n}$ -- апроксимация на Стирлинг.
+  \item $n! \asymp \sqrt{n} \frac{n^n}{e^n}$ -- от апроксимация на Стирлинг.
+        Тук по-общият резултат е
+        \[
+          \lim\limits_{n \to \infty} \frac{n!}{\sqrt{2 \pi n} \left( \frac{n}{e} \right)^n} = 1.
+        \]
   \item $\log(n!) \asymp n \log(n)$.
   \item $\log(n) \prec n^k \prec 2^n \prec n! \prec n^n \prec 2^{n^2}$ за всяко $k \geq 1$.
 \end{itemize}
-
-\newpage
 
 \begin{claim}
   Нека $f \in \calF$ е неограничено растяща и диференцируема, $a > 1$ и $k, l > 0$.
