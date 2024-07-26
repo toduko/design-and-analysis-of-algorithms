@@ -1,0 +1,7 @@
+MergeSort($A[1 \dots n] \in \arr$):
+    if $n = 1$:
+        return copy($A[1 \dots n]$)
+    
+    MergeSort($A[1 \dots \lfloor \frac{n}{2} \rfloor]$)
+    MergeSort($A[\lfloor \frac{n}{2} \rfloor + 1 \dots n]$)
+    return Merge($A[1 \dots \lfloor \frac{n}{2} \rfloor]$, $A[\lfloor \frac{n}{2} \rfloor + 1 \dots n]$)

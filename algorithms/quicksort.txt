@@ -1,0 +1,7 @@
+Quicksort($A[1 \dots n] \in \arr$):
+    if $n \leq 1$:
+        return
+
+    $pp \leftarrow \mathtt{Partition}(A[1 \dots n])$
+    Quicksort($A[1 \dots pp - 1]$)
+    Quicksort($A[pp + 1 \dots n]$)

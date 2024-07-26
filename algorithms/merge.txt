@@ -1,0 +1,24 @@
+Merge($A[1 \dots n], B[1 \dots m] \in \arr$):
+    init $C[1 \dots n + m] \in \arr$
+    $(i, l_A, l_B) \leftarrow (1, 1, 1)$
+
+    while $(l_A \leq n \: \& \: l_B \leq m)$:
+        if $A[l_A] \leq B[l_B]$:
+            $C[i] \leftarrow A[l_A]$
+            $l_A \leftarrow l_A + 1$
+        else:
+            $C[i] \leftarrow A[l_B]$
+            $l_B \leftarrow l_B + 1$
+        $i \leftarrow i + 1$
+
+    while $l_A \leq n$:
+        $C[i] \leftarrow A[l_A]$
+        $l_A \leftarrow l_A + 1$
+        $i \leftarrow i + 1$
+
+    while $l_B \leq m$:
+        $C[i] \leftarrow A[l_B]$
+        $l_B \leftarrow l_B + 1$
+        $i \leftarrow i + 1$
+
+    return $C[1 \dots n + m]$

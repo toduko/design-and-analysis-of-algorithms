@@ -1,0 +1,9 @@
+Select($A[1 \dots n] \in \arr$; $k \in \{ 1, \dots, n \}$):
+    $pp \leftarrow \mathtt{Partition}(A[1 \dots n])$
+    
+    if $k = pp$:
+        return $A[k]$
+    if $k < pp$:
+        return Select($A[1 \dots pp - 1]$, $k$)
+    if $k > pp$:
+        return Select($A[pp + 1 \dots n]$, $k - pp$)

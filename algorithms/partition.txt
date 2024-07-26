@@ -1,0 +1,11 @@
+Partition($A[1 \dots n] \in \arr$):
+    $pivot \leftarrow A[n]$
+    $pp \leftarrow 1$
+
+    for $i \leftarrow 1$ to $n - 1$:
+        if $A[i] < pivot$:
+            swap($A[i]$,$\;A[pp]$)
+            $pp \leftarrow pp + 1$
+
+    swap($A[pp]$,$\;A[n]$)
+    return $pp$
