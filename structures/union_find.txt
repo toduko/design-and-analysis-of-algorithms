@@ -21,7 +21,7 @@ struct UnionFind:
             return $\F$
 
         if $s[x] < s[y]$:
-            swap(x, y);
+            swap($x$, $y$)
 
         $l[y] \leftarrow x$
         $s[x] \leftarrow s[x] + s[y]$
