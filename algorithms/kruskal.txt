@@ -1,9 +1,9 @@
-Kruskal($E[1 \dots k]$ where $E[i] = (u, v)$ for some $u, v \in \{ 1, \dots, n \}$):
-    Sort($E[1 \dots k]$, $\leq_G$)
-    init empty $t \in \dynarr(\operatorname{type\_of\_element}(E[1 \dots k]))$
+Kruskal($E[1 \dots m]$ where $E[i] = (u, v)$ for some $u, v \in \{ 1, \dots, n \}$):
+    Sort($E[1 \dots m]$, $\leq_G$)
+    init empty $t \in \dynarr(\operatorname{type\_of\_element}(E[1 \dots m]))$
     init $dsu \in\;$UnionFind($n$)
 
-    for $i \leftarrow 1$ to $k$:
+    for $i \leftarrow 1$ to $m$:
         $(u, v) \leftarrow E[i]$
 
         if $dsu$.Unify($u$, $v$):
