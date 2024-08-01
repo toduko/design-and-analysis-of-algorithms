@@ -5,7 +5,7 @@ $\mathcal{C}$($n \in \N$):
     for $i \leftarrow 1$ to $n$:
         $C[i] \leftarrow 0$
 
-        for $ \leftarrow 1$ to $i$:
+        for $j \leftarrow 1$ to $i$:
             $C[i] \leftarrow C[i] + C[j - 1] \cdot C[i - j]$
 
     return $C[n]$
