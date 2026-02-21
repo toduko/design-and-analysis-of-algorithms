@@ -1,17 +1,22 @@
 Dijkstra($G = (V, E, w) \in \weightedgraph$ where $V = \{ 1, \dots, n \}$; $s \in V$):
-    init empty $q \in \pqueue_{\min}(\N \cross V, <_{lex(\N \cross V)})$
-    $d[1 \dots n] \leftarrow [-\infty, \dots, -\infty]$
-    $\pi[1 \dots n] \leftarrow [0, \dots, 0]$
-    $d[s] = 0$
-    $q$.push($(d[s], s)$);
+    init empty $q \in \pqueue_{\min}(V, \operatorname{keys(dist)})$
+    declare $\pi[1 \dots n] \in \arr$
+
+    for $v \in V$:
+        $v.\operatorname{dist} = \infty$
+        $\pi[v] \leftarrow 0$
+        $q$.push($v$);
+        
+    $s.\operatorname{dist} \leftarrow 0$
+    $q$.decrease_key($s$);
 
     while $\neg q$.empty():
-        $(d_u, u) \leftarrow q$.pop()
+        $u \leftarrow q$.extract_min()
 
         for $v \in \adj_G(u)$:
-            if $d_u + w(u, v) < d[v]$:
+            if $u.\operatorname{dist} + w(u, v) < d[v]$:
                 $\pi[v] \leftarrow u$
-                $d[v] \leftarrow d_u + w(u, v)$
-                $q$.push($(d[v], v)$)
+                $v.\operatorname{dist} \leftarrow u.\operatorname{dist} + w(u, v)$
+                $q$.decrease_key($v$)
     
     return $\pi[1 \dots n]$
